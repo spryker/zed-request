@@ -1,6 +1,6 @@
 <?php
 
-namespace Unit\SprykerFeature\Client\ZedRequest\Client\Fixture;
+namespace Unit\SprykerFeature\Client\ZedRequest\Service\Client\Fixture;
 
 use SprykerEngine\Shared\Transfer\AbstractTransfer;
 

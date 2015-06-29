@@ -1,9 +1,9 @@
 <?php
 
-namespace SprykerFeature\Client\ZedRequest\Client;
+namespace SprykerFeature\Client\ZedRequest\Service\Client;
 
 use SprykerFeature\Shared\ZedRequest\Client\AbstractHttpClient;
-use SprykerFeature\Client\ZedRequest\ZedRequestSettings;
+use SprykerFeature\Client\ZedRequest\Service\ZedRequestSettings;
 
 class HttpClient extends AbstractHttpClient
 {

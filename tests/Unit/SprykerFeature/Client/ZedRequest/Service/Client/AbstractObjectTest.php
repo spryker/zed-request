@@ -1,8 +1,8 @@
 <?php
 
-namespace Unit\SprykerFeature\Client\ZedRequest\Client;
+namespace Unit\SprykerFeature\Client\ZedRequest\Service\Client;
 
-use Unit\SprykerFeature\Client\ZedRequest\Client\Fixture\CommunicationObject;
+use Unit\SprykerFeature\Client\ZedRequest\Service\Client\Fixture\CommunicationObject;
 
 /**
  * @group Communication

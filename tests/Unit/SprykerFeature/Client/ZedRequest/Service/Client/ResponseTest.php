@@ -1,12 +1,12 @@
 <?php
 
-namespace Unit\SprykerFeature\Client\ZedRequest\Client;
+namespace Unit\SprykerFeature\Client\ZedRequest\Service\Client;
 
 use SprykerFeature\Shared\ZedRequest\Client\Message;
-use SprykerFeature\Client\ZedRequest\Client\Response;
+use SprykerFeature\Client\ZedRequest\Service\Client\Response;
 use SprykerEngine\Shared\Transfer\TransferInterface;
 use SprykerEngine\Zed\Kernel\Locator;
-use Unit\SprykerFeature\Client\ZedRequest\Client\Fixture\TestTransfer;
+use Unit\SprykerFeature\Client\ZedRequest\Service\Client\Fixture\TestTransfer;
 
 /**
  * @group SprykerFeature
