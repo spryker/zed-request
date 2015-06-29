@@ -1,6 +1,6 @@
 <?php
 
-namespace SprykerFeature\Client\ZedRequest;
+namespace SprykerFeature\Client\ZedRequest\Service;
 
 class ZedRequestSettings
 {

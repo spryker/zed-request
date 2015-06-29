@@ -1,6 +1,6 @@
 <?php
 
-namespace SprykerFeature\Client\ZedRequest\Provider;
+namespace SprykerFeature\Client\ZedRequest\Service\Provider;
 
 use SprykerFeature\Shared\ZedRequest\Provider\AbstractZedClientProvider;
 
