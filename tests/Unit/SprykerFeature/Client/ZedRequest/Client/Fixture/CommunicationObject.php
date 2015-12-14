@@ -4,7 +4,7 @@
  * (c) Spryker Systems GmbH copyright protected
  */
 
-namespace Unit\SprykerFeature\Client\ZedRequest\Service\Client\Fixture;
+namespace Unit\SprykerFeature\Client\ZedRequest\Client\Fixture;
 
 use SprykerFeature\Shared\ZedRequest\Client\AbstractObject;
 

@@ -4,11 +4,11 @@
  * (c) Spryker Systems GmbH copyright protected
  */
 
-namespace SprykerFeature\Client\ZedRequest\Service;
+namespace SprykerFeature\Client\ZedRequest;
 
-use SprykerEngine\Client\Kernel\Service\AbstractClient;
+use SprykerEngine\Client\Kernel\AbstractClient;
 use SprykerEngine\Shared\Transfer\TransferInterface;
-use SprykerFeature\Client\ZedRequest\Service\Client\ZedClient;
+use SprykerFeature\Client\ZedRequest\Client\ZedClient;
 use SprykerFeature\Shared\ZedRequest\Client\Message;
 
 /**

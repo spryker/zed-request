@@ -4,7 +4,7 @@
  * (c) Spryker Systems GmbH copyright protected
  */
 
-namespace SprykerFeature\Client\ZedRequest\Service\Provider;
+namespace SprykerFeature\Client\ZedRequest\Provider;
 
 use SprykerFeature\Shared\ZedRequest\Provider\AbstractZedClientProvider;
 
