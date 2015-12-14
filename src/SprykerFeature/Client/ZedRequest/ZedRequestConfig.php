@@ -4,7 +4,7 @@
  * (c) Spryker Systems GmbH copyright protected
  */
 
-namespace SprykerFeature\Client\ZedRequest\Service;
+namespace SprykerFeature\Client\ZedRequest;
 
 use SprykerEngine\Shared\Config;
 use SprykerFeature\Shared\Auth\AuthConstants;

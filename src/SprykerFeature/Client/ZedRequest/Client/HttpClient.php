@@ -4,10 +4,10 @@
  * (c) Spryker Systems GmbH copyright protected
  */
 
-namespace SprykerFeature\Client\ZedRequest\Service\Client;
+namespace SprykerFeature\Client\ZedRequest\Client;
 
 use SprykerEngine\Shared\Kernel\Factory\FactoryInterface;
-use SprykerFeature\Client\Auth\Service\AuthClientInterface;
+use SprykerFeature\Client\Auth\AuthClientInterface;
 use SprykerFeature\Shared\ZedRequest\Client\AbstractHttpClient;
 
 class HttpClient extends AbstractHttpClient

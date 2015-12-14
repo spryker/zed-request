@@ -4,7 +4,7 @@
  * (c) Spryker Systems GmbH copyright protected
  */
 
-namespace Unit\SprykerFeature\Client\ZedRequest\Service\Client;
+namespace Unit\SprykerFeature\Client\ZedRequest\Client;
 
 use SprykerFeature\Shared\ZedRequest\Client\Message;
 

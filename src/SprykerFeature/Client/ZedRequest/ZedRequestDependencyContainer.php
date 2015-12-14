@@ -4,15 +4,15 @@
  * (c) Spryker Systems GmbH copyright protected
  */
 
-namespace SprykerFeature\Client\ZedRequest\Service;
+namespace SprykerFeature\Client\ZedRequest;
 
-use SprykerEngine\Client\Kernel\Service\AbstractServiceDependencyContainer;
+use SprykerEngine\Client\Kernel\AbstractDependencyContainer;
 use SprykerEngine\Shared\Config;
-use SprykerFeature\Client\ZedRequest\Service\Client\HttpClient;
-use SprykerFeature\Client\ZedRequest\Service\Client\ZedClient;
+use SprykerFeature\Client\ZedRequest\Client\HttpClient;
+use SprykerFeature\Client\ZedRequest\Client\ZedClient;
 use SprykerFeature\Client\ZedRequest\ZedRequestDependencyProvider;
 
-class ZedRequestDependencyContainer extends AbstractServiceDependencyContainer
+class ZedRequestDependencyContainer extends AbstractDependencyContainer
 {
 
     /**
