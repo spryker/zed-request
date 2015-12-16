@@ -12,7 +12,7 @@ use Spryker\Client\ZedRequest\Client\HttpClient;
 use Spryker\Client\ZedRequest\Client\ZedClient;
 use Spryker\Client\ZedRequest\ZedRequestDependencyProvider;
 
-class ZedRequestDependencyContainer extends AbstractFactory
+class ZedRequestFactory extends AbstractFactory
 {
 
     /**
