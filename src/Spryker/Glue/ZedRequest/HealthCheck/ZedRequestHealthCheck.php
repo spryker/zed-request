@@ -5,23 +5,23 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Client\ZedRequest\HealthCheck;
+namespace Spryker\Glue\ZedRequest\HealthCheck;
 
 use Exception;
 use Generated\Shared\Transfer\HealthCheckServiceResponseTransfer;
-use Spryker\Shared\ZedRequest\Client\AbstractZedClientInterface;
+use Spryker\Client\ZedRequest\ZedRequestClientInterface;
 
 class ZedRequestHealthCheck implements HealthCheckInterface
 {
     /**
-     * @var \Spryker\Shared\ZedRequest\Client\AbstractZedClientInterface
+     * @var \Spryker\Client\ZedRequest\ZedRequestClientInterface
      */
     protected $zedRequestClient;
 
     /**
-     * @param \Spryker\Shared\ZedRequest\Client\AbstractZedClientInterface $zedRequestClient
+     * @param \Spryker\Client\ZedRequest\ZedRequestClientInterface $zedRequestClient
      */
-    public function __construct(AbstractZedClientInterface $zedRequestClient)
+    public function __construct(ZedRequestClientInterface $zedRequestClient)
     {
         $this->zedRequestClient = $zedRequestClient;
     }
