@@ -5,19 +5,19 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Client\ZedRequest\Plugin;
+namespace Spryker\Yves\ZedRequest\Plugin\HealthCheck;
 
 use Generated\Shared\Transfer\HealthCheckServiceResponseTransfer;
-use Spryker\Client\Kernel\AbstractPlugin;
 use Spryker\Shared\HealthCheckExtension\Dependency\Plugin\HealthCheckPluginInterface;
-use Spryker\Shared\ZedRequest\ZedRequestConfig;
+use Spryker\Yves\Kernel\AbstractPlugin;
 
 /**
- * @method \Spryker\Client\ZedRequest\ZedRequestFactory getFactory()
- * @method \Spryker\Client\ZedRequest\ZedRequestClient getClient()
+ * @method \Spryker\Yves\ZedRequest\ZedRequestFactory getFactory()
  */
 class ZedRequestHealthCheckPlugin extends AbstractPlugin implements HealthCheckPluginInterface
 {
+    public const ZED_REQUEST_HEALTH_CHECK_SERVICE_NAME = 'zed-request';
+
     /**
      * {@inheritDoc}
      *
@@ -27,7 +27,7 @@ class ZedRequestHealthCheckPlugin extends AbstractPlugin implements HealthCheckP
      */
     public function getName(): string
     {
-        return ZedRequestConfig::ZED_REQUEST_SERVICE_NAME;
+        return static::ZED_REQUEST_HEALTH_CHECK_SERVICE_NAME;
     }
 
     /**
@@ -39,6 +39,6 @@ class ZedRequestHealthCheckPlugin extends AbstractPlugin implements HealthCheckP
      */
     public function check(): HealthCheckServiceResponseTransfer
     {
-        return $this->getClient()->executeZedRequestHealthCheck();
+        return $this->getFactory()->createZedRequestHealthChecker()->executeHealthCheck();
     }
 }

@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Client\ZedRequest\HealthCheck;
+namespace Spryker\Glue\ZedRequest\HealthCheck;
 
 use Generated\Shared\Transfer\HealthCheckServiceResponseTransfer;
 
