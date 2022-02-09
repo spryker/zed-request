@@ -15,7 +15,7 @@ interface RepeaterInterface
     /**
      * @param string|null $moduleControllerAction
      *
-     * @return array<string, mixed>
+     * @return array
      */
     public function getRepeatData($moduleControllerAction = null);
 

@@ -54,7 +54,6 @@ class ZedRequestDependencyProvider extends AbstractBundleDependencyProvider
             try {
                 $messenger = $container->getLocator()->messenger()->facade();
             } catch (LogicException $exception) {
-                /** @var \Spryker\Zed\Messenger\Business\MessengerFacadeInterface $messenger */
                 $messenger = new NullMessenger();
             }
             $zedRequestToMessengerBridge = new ZedRequestToMessengerBridge($messenger);
