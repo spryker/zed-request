@@ -7,6 +7,7 @@
 
 namespace Spryker\Zed\ZedRequest\Business\Model;
 
+use RuntimeException;
 use Spryker\Shared\Config\Config;
 use Spryker\Shared\ZedRequest\Client\RequestInterface;
 use Spryker\Shared\ZedRequest\ZedRequestConstants;
@@ -102,8 +103,12 @@ class Repeater implements RepeaterInterface
         $string = serialize($repeatData);
 
         $directory = dirname($filePath);
-        if (!is_dir($directory)) {
-            mkdir($directory, $this->getConfig()->getPermissionMode(), true);
+        if (
+            !is_dir($directory)
+            && !mkdir($directory, $this->getConfig()->getPermissionMode(), true)
+            && !is_dir($directory)
+        ) {
+            throw new RuntimeException(sprintf('Directory "%s" could not be created', $directory));
         }
 
         file_put_contents($filePath, $string);
