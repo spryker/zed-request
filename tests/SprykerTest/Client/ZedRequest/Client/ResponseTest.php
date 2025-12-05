@@ -56,6 +56,9 @@ class ResponseTest extends Unit
         $response->addInfoMessages([$this->getMessageTransfer(static::MESSAGE_INFO)]);
         $response->addErrorMessages([$this->getMessageTransfer(static::MESSAGE_ERROR)]);
         $response->setTransfer($transfer);
+        $response->setDebug([
+            'debug' => 'debug',
+        ]);
 
         return $response;
     }
@@ -112,6 +115,7 @@ class ResponseTest extends Unit
         $this->assertEquals($transfer, $response->getTransfer());
         $this->assertNotSame($transfer, $response->getTransfer());
         $this->assertNotSame($response->getTransfer(), $response->getTransfer());
+        $this->assertEquals(['debug' => 'debug'], $response->getDebug());
     }
 
     /**
@@ -128,6 +132,7 @@ class ResponseTest extends Unit
         $this->assertIsArray($array, 'toArray does not return array');
 
         $newResponse = new Response($array);
+        $newResponse->setDebug($response->getDebug());
 
         $this->assertEquals($response, $newResponse);
         $this->assertNotSame($response, $newResponse);

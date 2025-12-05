@@ -42,11 +42,13 @@ class ZedRequestInMemoryLoggerTest extends Unit
                 $singleCallData['destination'],
                 $singleCallData['payload'],
                 $singleCallData['result'],
+                $singleCallData['debug'] ?? [],
             );
         }
 
         // Assert
-        $this->assertSame($expectedResult, $zedRequestInMemoryLogger->getLogs());
+        $logs = $zedRequestInMemoryLogger->getLogs();
+        $this->assertSame($expectedResult, $logs);
     }
 
     /**
@@ -66,6 +68,7 @@ class ZedRequestInMemoryLoggerTest extends Unit
                         'destination' => 'localhost',
                         'payload' => $payloadMessageTransfer->toArray(),
                         'result' => $responseMessageTransfer->toArray(),
+                        'debug' => [],
                     ],
                 ],
                 [
@@ -73,6 +76,7 @@ class ZedRequestInMemoryLoggerTest extends Unit
                         'destination' => 'localhost',
                         'payload' => json_encode($payloadMessageTransfer->toArray(), JSON_PRETTY_PRINT),
                         'result' => json_encode($responseMessageTransfer->toArray(), JSON_PRETTY_PRINT),
+                        'debug' => [],
                     ],
                 ],
             ],
@@ -89,11 +93,13 @@ class ZedRequestInMemoryLoggerTest extends Unit
                         'destination' => 'localhost',
                         'payload' => json_encode($payloadMessageTransfer->toArray(), JSON_PRETTY_PRINT),
                         'result' => json_encode($responseMessageTransfer->toArray(), JSON_PRETTY_PRINT),
+                        'debug' => [],
                     ],
                     [
                         'destination' => 'localhost',
                         'payload' => json_encode($anotherPayloadMessageTransfer->toArray(), JSON_PRETTY_PRINT),
                         'result' => json_encode($anotherResponseMessageTransfer->toArray(), JSON_PRETTY_PRINT),
+                        'debug' => [],
                     ],
                 ],
             ],

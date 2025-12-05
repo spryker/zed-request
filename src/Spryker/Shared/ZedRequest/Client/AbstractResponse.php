@@ -26,6 +26,11 @@ abstract class AbstractResponse extends AbstractObject implements EmbeddedTransf
     ];
 
     /**
+     * @var array<string, mixed>
+     */
+    protected array $debug = [];
+
+    /**
      * @param array|null $values
      */
     public function __construct(?array $values = null)
@@ -283,5 +288,21 @@ abstract class AbstractResponse extends AbstractObject implements EmbeddedTransf
         $this->values[ResponseInterface::TRANSFER_CLASSNAME] = get_class($transferObject);
 
         return $this;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getDebug(): array
+    {
+        return $this->debug;
+    }
+
+    /**
+     * @param array<string, mixed> $debug
+     */
+    public function setDebug(array $debug): void
+    {
+        $this->debug = $debug;
     }
 }

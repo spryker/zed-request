@@ -43,12 +43,13 @@ class ZedRequestInMemoryLogger implements ZedRequestLoggerInterface
      *
      * @return void
      */
-    public function log(string $url, array $payload, array $result): void
+    public function log(string $url, array $payload, array $result, array $debug = []): void
     {
         static::$logs[] = [
             'destination' => $this->host ? ($this->host . $url) : $url,
             'payload' => $this->utilEncodingService->encodeJson($payload, JSON_PRETTY_PRINT) ?? '',
             'result' => $this->utilEncodingService->encodeJson($result, JSON_PRETTY_PRINT) ?? '',
+            'debug' => $debug,
         ];
     }
 

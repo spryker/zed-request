@@ -67,6 +67,16 @@ abstract class AbstractHttpClient implements HttpClientInterface
     /**
      * @var string
      */
+    protected const HEADER_DEBUG_TOKEN = 'X-Debug-Token';
+
+    /**
+     * @var string
+     */
+    protected const HEADER_DEBUG_TOKEN_LINK = 'X-Debug-Token-Link';
+
+    /**
+     * @var string
+     */
     protected const SERVER_HTTP_HOST = 'HTTP_HOST';
 
     /**
@@ -500,6 +510,37 @@ Configured with %s %s:%s in %s. Error: Stacktrace:';
         }
         $responseTransfer = new SprykerResponse();
         $responseTransfer->fromArray($data);
+
+        $responseTransfer = $this->setDebugInformationFromResponse($response, $responseTransfer);
+
+        return $responseTransfer;
+    }
+
+    /**
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param \Spryker\Shared\ZedRequest\Client\ResponseInterface $responseTransfer
+     *
+     * @return \Spryker\Shared\ZedRequest\Client\ResponseInterface
+     */
+    protected function setDebugInformationFromResponse(
+        MessageResponseInterface $response,
+        ResponseInterface $responseTransfer
+    ): ResponseInterface {
+        if (!$response->hasHeader(static::HEADER_DEBUG_TOKEN) || !$response->hasHeader(static::HEADER_DEBUG_TOKEN_LINK)) {
+            return $responseTransfer;
+        }
+
+        $debugToken = $response->getHeader(static::HEADER_DEBUG_TOKEN)[0] ?? null;
+        $debugTokenLink = $response->getHeader(static::HEADER_DEBUG_TOKEN_LINK)[0] ?? null;
+
+        if ($debugToken === null || $debugTokenLink === null) {
+            return $responseTransfer;
+        }
+
+        $responseTransfer->setDebug([
+            static::HEADER_DEBUG_TOKEN => $debugToken,
+            static::HEADER_DEBUG_TOKEN_LINK => $debugTokenLink,
+        ]);
 
         return $responseTransfer;
     }

@@ -48,7 +48,12 @@
 
         {% for logData in collector.logs %}
             <tr>
-                <td>{{ logData['destination'] }}</td>
+                <td>
+                    {{ logData['destination'] }}
+                    {% if logData['debug'] is defined and logData['debug']['X-Debug-Token-Link'] is defined and logData['debug']['X-Debug-Token'] is defined %}
+                        <pre><a href="{{ logData['debug']['X-Debug-Token-Link'] }}" target="_blank" rel="noopener">Profile {{ logData['debug']['X-Debug-Token'] }}</a></pre>
+                    {% endif %}
+                </td>
                 <td>
                     <pre>{{ logData['payload'] }}</pre>
                 </td>

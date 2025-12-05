@@ -16,7 +16,7 @@ interface ZedRequestLoggerInterface
      *
      * @return void
      */
-    public function log(string $url, array $payload, array $result): void;
+    public function log(string $url, array $payload, array $result, array $debug = []): void;
 
     /**
      * @return array

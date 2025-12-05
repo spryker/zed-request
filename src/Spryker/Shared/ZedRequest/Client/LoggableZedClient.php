@@ -42,7 +42,9 @@ class LoggableZedClient implements AbstractZedClientInterface
     public function call(string $url, TransferInterface $object, ?array $requestOptions = null)
     {
         $result = $this->zedClient->call($url, $object, $requestOptions);
-        $this->zedRequestLogger->log($url, $object->toArray(), $result->toArray());
+        $lastResponse = $this->zedClient->getLastResponse();
+
+        $this->zedRequestLogger->log($url, $object->toArray(), $result->toArray(), $lastResponse->getDebug());
 
         return $result;
     }

@@ -153,4 +153,14 @@ interface ResponseInterface
      * @return $this
      */
     public function setTransfer(TransferInterface $transferObject);
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getDebug(): array;
+
+    /**
+     * @param array<string, mixed> $debug
+     */
+    public function setDebug(array $debug): void;
 }

@@ -11,6 +11,7 @@ use Codeception\Actor;
 use Codeception\Stub;
 use Spryker\Shared\ZedRequest\Client\AbstractZedClient;
 use Spryker\Shared\ZedRequest\Client\AbstractZedClientInterface;
+use Spryker\Shared\ZedRequest\Client\ResponseInterface;
 
 /**
  * @method void wantToTest($text)
@@ -47,6 +48,9 @@ class ZedRequestClientTester extends Actor
     public function mockCreateZedClient(array $params = []): void
     {
         $zedRequestClientStub = Stub::makeEmpty(AbstractZedClient::class, $params);
+
+        $responseStub = Stub::makeEmpty(ResponseInterface::class);
+        $zedRequestClientStub->method('getLastResponse')->willReturn($responseStub);
 
         $this->mockFactoryMethod('createZedClient', $zedRequestClientStub);
     }
