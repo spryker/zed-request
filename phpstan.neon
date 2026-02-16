@@ -15,3 +15,15 @@ parameters:
             identifier: missingType.iterableValue
         -
             identifier: missingType.generics
+        -
+            identifier: trait.unused
+        -
+            identifier: phpDoc.parseError
+        -
+            identifier: missingType.property
+        -
+            identifier: function.alreadyNarrowedType
+        -
+            identifier: instanceof.alwaysTrue
+        -
+            identifier: varTag.nativeType
