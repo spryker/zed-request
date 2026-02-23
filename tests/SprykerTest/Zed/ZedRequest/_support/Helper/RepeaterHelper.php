@@ -155,7 +155,7 @@ class RepeaterHelper extends Module
     public function getTransferRequest(): AbstractRequest
     {
         /** @var \Spryker\Shared\ZedRequest\Client\AbstractRequest $request */
-        $request = Stub::make(AbstractRequest::class);
+        $request = Stub::makeEmpty(AbstractRequest::class);
 
         return $request;
     }
