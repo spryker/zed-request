@@ -587,17 +587,13 @@ Configured with %s %s:%s in %s. Error: Stacktrace:';
      */
     protected function addCookie(array $config, string $name): array
     {
-        if (!isset($_COOKIE[$name])) {
-            return $config;
-        }
-
         if (!isset($config['cookies'])) {
             $config['cookies'] = new CookieJar();
         }
 
         $cookie = new SetCookie();
         $cookie->setName($name);
-        $cookie->setValue($_COOKIE[$name]);
+        $cookie->setValue($_COOKIE[$name] ?? 'PHPSTORM');
         $cookie->setDomain(Config::get(ZedRequestConstants::HOST_ZED_API));
 
         $config['cookies']->setCookie($cookie);
