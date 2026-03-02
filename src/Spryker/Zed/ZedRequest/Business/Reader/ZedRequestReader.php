@@ -18,17 +18,11 @@ class ZedRequestReader implements ZedRequestReaderInterface
      */
     protected $request;
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     */
     public function __construct(Request $request)
     {
         $this->request = $request;
     }
 
-    /**
-     * @return \Spryker\Shared\ZedRequest\Client\AbstractRequest
-     */
     public function getCurrentZedRequest(): AbstractRequest
     {
         /** @phpstan-var string */

@@ -269,11 +269,6 @@ class GatewayControllerListenerPlugin extends AbstractPlugin implements GatewayC
         throw new LogicException('Only transfer classes are allowed in yves action as parameter');
     }
 
-    /**
-     * @param \ReflectionParameter $parameter
-     *
-     * @return \ReflectionClass|null
-     */
     protected function getReflectionClass(ReflectionParameter $parameter): ?ReflectionClass
     {
         if ($parameter->getType() !== null && !$parameter->getType()->isBuiltin()) {

@@ -39,11 +39,6 @@ class RequestBackendGatewayApplicationPlugin extends AbstractPlugin implements A
         return $container;
     }
 
-    /**
-     * @param \Spryker\Service\Container\ContainerInterface $container
-     *
-     * @return \Spryker\Service\Container\ContainerInterface
-     */
     protected function addZedRequestService(ContainerInterface $container): ContainerInterface
     {
         $container->set(static::SERVICE_ZED_REQUEST, function () {

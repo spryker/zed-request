@@ -15,11 +15,6 @@ use Spryker\Client\ZedRequestExtension\Dependency\Plugin\HeaderExpanderPluginInt
  */
 class RequestIdHeaderExpanderPlugin extends AbstractPlugin implements HeaderExpanderPluginInterface
 {
-    /**
-     * @param array $headers
-     *
-     * @return array
-     */
     public function expandHeader(array $headers): array
     {
         $headers['X-Request-ID'] = $this->getClient()->getRequestId();

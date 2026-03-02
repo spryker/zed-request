@@ -13,30 +13,16 @@ use stdClass;
 
 class GatewayController extends AbstractGatewayController
 {
-    /**
-     * @return string
-     */
     public function badAction(): string
     {
         return 'bad';
     }
 
-    /**
-     * @param \Spryker\Shared\Kernel\Transfer\TransferInterface $foo
-     *
-     * @return \Spryker\Shared\Kernel\Transfer\TransferInterface
-     */
     public function goodAction(TransferInterface $foo): TransferInterface
     {
         return $foo;
     }
 
-    /**
-     * @param \Spryker\Shared\Kernel\Transfer\TransferInterface $foo
-     * @param \Spryker\Shared\Kernel\Transfer\TransferInterface $bar
-     *
-     * @return \Spryker\Shared\Kernel\Transfer\TransferInterface
-     */
     public function twoTransferParametersAction(TransferInterface $foo, TransferInterface $bar): TransferInterface
     {
         if ($bar) {
@@ -60,11 +46,6 @@ class GatewayController extends AbstractGatewayController
         return $foo;
     }
 
-    /**
-     * @param \stdClass $foo
-     *
-     * @return \stdClass
-     */
     public function notTransferAction(stdClass $foo): stdClass
     {
         return $foo;
@@ -80,9 +61,6 @@ class GatewayController extends AbstractGatewayController
         return $foo;
     }
 
-    /**
-     * @return void
-     */
     public function transformMessageAction(): void
     {
         $this->addInfoMessage('info');

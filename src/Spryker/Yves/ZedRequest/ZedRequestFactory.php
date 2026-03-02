@@ -63,9 +63,6 @@ class ZedRequestFactory extends AbstractFactory
         return $this->getProvidedDependency(ZedRequestDependencyProvider::SERVICE_UTIL_NETWORK);
     }
 
-    /**
-     * @return \Spryker\Yves\ZedRequest\HealthCheck\HealthCheckInterface
-     */
     public function createZedRequestHealthChecker(): HealthCheckInterface
     {
         return new ZedRequestHealthCheck(
@@ -73,17 +70,11 @@ class ZedRequestFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \Spryker\Client\ZedRequest\ZedRequestClientInterface
-     */
     public function getZedRequestClient(): ZedRequestClientInterface
     {
         return $this->getProvidedDependency(ZedRequestDependencyProvider::CLIENT_ZED_REQUEST);
     }
 
-    /**
-     * @return \Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface
-     */
     public function createRedisDataCollector(): DataCollectorInterface
     {
         return new ZedRequestDataCollector(
@@ -91,9 +82,6 @@ class ZedRequestFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \Spryker\Shared\ZedRequest\Logger\ZedRequestLoggerInterface
-     */
     public function createZedRequestLogger(): ZedRequestLoggerInterface
     {
         return new ZedRequestInMemoryLogger(
@@ -101,9 +89,6 @@ class ZedRequestFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \Spryker\Shared\ZedRequest\Dependency\Service\ZedRequestToUtilEncodingServiceInterface
-     */
     public function getUtilEncodingService(): ZedRequestToUtilEncodingServiceInterface
     {
         return $this->getProvidedDependency(ZedRequestDependencyProvider::SERVICE_UTIL_ENCODING);

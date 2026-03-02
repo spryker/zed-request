@@ -165,11 +165,6 @@ class Repeater implements RepeaterInterface
         );
     }
 
-    /**
-     * @param string $directory
-     *
-     * @return bool
-     */
     protected function makeDirectory(string $directory): bool
     {
         if (!is_dir($directory) && !mkdir($directory, $this->getConfig()->getPermissionMode(), true) && !is_dir($directory)) {

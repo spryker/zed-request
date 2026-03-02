@@ -40,9 +40,6 @@ class LoggableZedClientTest extends Unit
      */
     public const MESSAGE_TYPE_INFO = 'info';
 
-    /**
-     * @return void
-     */
     public function testCanMakeZedCall(): void
     {
         // Arrange
@@ -65,9 +62,6 @@ class LoggableZedClientTest extends Unit
         $this->assertSame($expectedResult, $actualResult);
     }
 
-    /**
-     * @return void
-     */
     public function testHasLastResponse(): void
     {
         // Arrange
@@ -81,9 +75,6 @@ class LoggableZedClientTest extends Unit
         $this->assertEquals($expectedResult, $actualResult);
     }
 
-    /**
-     * @return void
-     */
     public function testCanGetLastResponse(): void
     {
         $expectedResult = new Response();
@@ -95,9 +86,6 @@ class LoggableZedClientTest extends Unit
         $this->assertEquals($expectedResult, $actualResult);
     }
 
-    /**
-     * @return void
-     */
     public function testCanGetInfoStatusMessages(): void
     {
         // Arrange
@@ -113,9 +101,6 @@ class LoggableZedClientTest extends Unit
         $this->tester->assertMessageAreSame($expectedResult, $actualResult);
     }
 
-    /**
-     * @return void
-     */
     public function testCanGetErrorStatusMessages(): void
     {
         // Arrange
@@ -131,9 +116,6 @@ class LoggableZedClientTest extends Unit
         $this->tester->assertMessageAreSame($expectedResult, $actualResult);
     }
 
-    /**
-     * @return void
-     */
     public function testCanGetSuccessStatusMessages(): void
     {
         // Arrange

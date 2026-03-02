@@ -30,9 +30,6 @@ class HttpClientTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function testAcceptEncodingHeaderIsSetWhenAcceptEncodingHeaderExpanderPluginIsUsed(): void
     {
         // Arrange
@@ -48,9 +45,6 @@ class HttpClientTest extends Unit
         $this->assertArrayHasKey('Accept-Encoding', $header);
     }
 
-    /**
-     * @return void
-     */
     public function testAuthTokenHeaderIsSetWhenAuthTokenHeaderExpanderPluginIsUsed(): void
     {
         // Arrange
@@ -66,9 +60,6 @@ class HttpClientTest extends Unit
         $this->assertArrayHasKey('Auth-Token', $header);
     }
 
-    /**
-     * @return void
-     */
     public function testRequestIdHeaderIsSetWhenRequestIdHeaderExpanderPluginIsUsed(): void
     {
         // Arrange
@@ -84,9 +75,6 @@ class HttpClientTest extends Unit
         $this->assertArrayHasKey('Auth-Token', $header);
     }
 
-    /**
-     * @return void
-     */
     public function testBackwardCompatibilityAuthTokenHeaderIsSetWithoutHeaderExpanderPlugin(): void
     {
         // Arrange
@@ -99,9 +87,6 @@ class HttpClientTest extends Unit
         $this->assertArrayHasKey('Auth-Token', $header);
     }
 
-    /**
-     * @return void
-     */
     public function testBackwardCompatibilityRequestIdHeaderIsSetWithoutHeaderExpanderPlugin(): void
     {
         // Arrange

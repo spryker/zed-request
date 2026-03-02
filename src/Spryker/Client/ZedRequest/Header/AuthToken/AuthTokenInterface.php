@@ -9,8 +9,5 @@ namespace Spryker\Client\ZedRequest\Header\AuthToken;
 
 interface AuthTokenInterface
 {
-    /**
-     * @return string
-     */
     public function getAuthToken(): string;
 }

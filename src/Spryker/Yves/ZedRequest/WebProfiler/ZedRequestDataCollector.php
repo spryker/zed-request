@@ -25,45 +25,26 @@ class ZedRequestDataCollector extends DataCollector
      */
     protected $zedRequestLogger;
 
-    /**
-     * @param \Spryker\Shared\ZedRequest\Logger\ZedRequestLoggerInterface $zedRequestLogger
-     */
     public function __construct(ZedRequestLoggerInterface $zedRequestLogger)
     {
         $this->zedRequestLogger = $zedRequestLogger;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Symfony\Component\HttpFoundation\Response $response
-     * @param \Throwable|null $exception
-     *
-     * @return void
-     */
     public function collect(Request $request, Response $response, ?Throwable $exception = null): void
     {
         $this->data['logs'] = $this->zedRequestLogger->getLogs();
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return static::COLLECTOR_NAME;
     }
 
-    /**
-     * @return void
-     */
     public function reset(): void
     {
         $this->data = [];
     }
 
-    /**
-     * @return array
-     */
     public function getLogs(): array
     {
         return $this->data['logs'];

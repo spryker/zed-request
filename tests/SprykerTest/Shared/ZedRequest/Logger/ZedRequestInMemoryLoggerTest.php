@@ -51,9 +51,6 @@ class ZedRequestInMemoryLoggerTest extends Unit
         $this->assertSame($expectedResult, $logs);
     }
 
-    /**
-     * @return array
-     */
     public function canLogCallsDataProvider(): array
     {
         $payloadMessageTransfer = (new MessageTransfer())->setValue('value');

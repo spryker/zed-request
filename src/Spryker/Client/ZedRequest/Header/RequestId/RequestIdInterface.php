@@ -9,8 +9,5 @@ namespace Spryker\Client\ZedRequest\Header\RequestId;
 
 interface RequestIdInterface
 {
-    /**
-     * @return string
-     */
     public function getRequestId(): string;
 }

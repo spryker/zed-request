@@ -26,9 +26,6 @@ use Spryker\Zed\ZedRequest\Business\Model\Repeater;
  */
 class RepeaterTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testSetRepeatedDataWritesDataToFiles(): void
     {
         $requestMock = $this->tester->getTransferRequest();
@@ -41,9 +38,6 @@ class RepeaterTest extends Unit
         $this->assertFileExists($this->tester->getFileNameWithBundleControllerAction());
     }
 
-    /**
-     * @return void
-     */
     public function testSetRepeatedDataThrowsExceptionForInvalidBundleRequest(): void
     {
         // Arrange
@@ -59,9 +53,6 @@ class RepeaterTest extends Unit
         $repeater->setRepeatData($requestMock, $httpRequest);
     }
 
-    /**
-     * @return void
-     */
     public function testSetRepeatedDataThrowsExceptionForInvalidControllerRequest(): void
     {
         // Arrange
@@ -77,9 +68,6 @@ class RepeaterTest extends Unit
         $repeater->setRepeatData($requestMock, $httpRequest);
     }
 
-    /**
-     * @return void
-     */
     public function testSetRepeatedDataThrowsExceptionForInvalidActionRequest(): void
     {
         // Arrange
@@ -95,9 +83,6 @@ class RepeaterTest extends Unit
         $repeater->setRepeatData($requestMock, $httpRequest);
     }
 
-    /**
-     * @return void
-     */
     public function testGetRepeatedDataReturnsArray(): void
     {
         // Arrange
@@ -112,9 +97,6 @@ class RepeaterTest extends Unit
         $this->assertIsArray($bundleControllerActionRepeatData);
     }
 
-    /**
-     * @return void
-     */
     public function testGetRepeatedDataThrowsExceptionOnInvalidBundleControllerAction(): void
     {
         // Arrange

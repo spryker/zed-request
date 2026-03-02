@@ -54,9 +54,6 @@ class TestTransfer extends AbstractTransfer
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getFoo(): string
     {
         return $this->foo;

@@ -33,12 +33,6 @@ class HttpClient extends AbstractHttpClient implements HttpClientInterface
      */
     protected $utilTextService;
 
-    /**
-     * @param \Spryker\Client\ZedRequest\ZedRequestConfig $config
-     * @param array $headerExpanderPlugins
-     * @param \Spryker\Service\UtilNetwork\UtilNetworkServiceInterface $utilNetworkService
-     * @param \Spryker\Service\UtilText\UtilTextServiceInterface $utilTextService
-     */
     public function __construct(
         ZedRequestConfig $config,
         array $headerExpanderPlugins,

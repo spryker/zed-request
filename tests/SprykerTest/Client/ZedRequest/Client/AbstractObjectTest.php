@@ -22,9 +22,6 @@ use SprykerTest\Client\ZedRequest\Client\Fixture\CommunicationObject;
  */
 class AbstractObjectTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testConstructorWithoutParameters(): void
     {
         $object = new CommunicationObject();
@@ -37,9 +34,6 @@ class AbstractObjectTest extends Unit
         ], $object->toArray());
     }
 
-    /**
-     * @return void
-     */
     public function testConstructorWithParameters(): void
     {
         $data = ['test1' => 1];
@@ -54,9 +48,6 @@ class AbstractObjectTest extends Unit
         ], $object->toArray());
     }
 
-    /**
-     * @return void
-     */
     public function testFromArray(): void
     {
         $data = ['test1' => 1, 'test2' => 'hund'];
@@ -72,9 +63,6 @@ class AbstractObjectTest extends Unit
         ], $object->toArray());
     }
 
-    /**
-     * @return void
-     */
     public function testInvalidData(): void
     {
         $data = ['test6' => 4, 'test5' => 'data'];
@@ -90,9 +78,6 @@ class AbstractObjectTest extends Unit
         ], $object->toArray());
     }
 
-    /**
-     * @return void
-     */
     public function testInvalidAndValidData(): void
     {
         $data = ['test6' => 4, 'test5' => 'data', 'test2' => 3];

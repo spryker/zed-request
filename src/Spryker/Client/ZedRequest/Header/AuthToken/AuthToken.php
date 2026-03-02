@@ -22,19 +22,12 @@ class AuthToken implements AuthTokenInterface
      */
     protected $utilTextService;
 
-    /**
-     * @param \Spryker\Client\ZedRequest\ZedRequestConfig $config
-     * @param \Spryker\Service\UtilText\UtilTextServiceInterface $utilTextService
-     */
     public function __construct(ZedRequestConfig $config, UtilTextServiceInterface $utilTextService)
     {
         $this->config = $config;
         $this->utilTextService = $utilTextService;
     }
 
-    /**
-     * @return string
-     */
     public function getAuthToken(): string
     {
         return $this->utilTextService->generateToken($this->config->getRawToken(), $this->config->getTokenOptions());

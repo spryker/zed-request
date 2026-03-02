@@ -54,9 +54,6 @@ class Transfer extends AbstractTransfer
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getKey(): string
     {
         return $this->key;

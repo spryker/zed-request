@@ -24,13 +24,6 @@ use SprykerTest\Client\ZedRequest\Client\Fixture\TestTransfer;
  */
 class RequestTest extends Unit
 {
-    /**
-     * @param \Spryker\Shared\Kernel\Transfer\TransferInterface $transfer
-     * @param \Spryker\Shared\Kernel\Transfer\TransferInterface|null $metaTransfer1
-     * @param \Spryker\Shared\Kernel\Transfer\TransferInterface|null $metaTransfer2
-     *
-     * @return \Spryker\Client\ZedRequest\Client\Request
-     */
     protected function createFullRequest(
         TransferInterface $transfer,
         ?TransferInterface $metaTransfer1 = null,
@@ -56,9 +49,6 @@ class RequestTest extends Unit
         return $request;
     }
 
-    /**
-     * @return void
-     */
     public function testDefaultTransferIsNull(): void
     {
         $response = new Request();
@@ -66,9 +56,6 @@ class RequestTest extends Unit
         $this->assertNull($response->getMetaTransfer('asd'));
     }
 
-    /**
-     * @return void
-     */
     public function testGetterAndSetters(): void
     {
         $transfer = new TestTransfer();
@@ -85,9 +72,6 @@ class RequestTest extends Unit
         $this->assertSame('username', $request->getUsername());
     }
 
-    /**
-     * @return void
-     */
     public function testMetaTransfersAreStoredCorrectly(): void
     {
         $transfer = new TestTransfer();
@@ -107,9 +91,6 @@ class RequestTest extends Unit
         $this->assertNotSame($metaTransfer2, $request->getMetaTransfer('meta2'));
     }
 
-    /**
-     * @return void
-     */
     public function testToArrayAndFromArray(): void
     {
         $transfer = new TestTransfer();

@@ -22,10 +22,6 @@ class LoggableZedClient implements AbstractZedClientInterface
      */
     protected $zedRequestLogger;
 
-    /**
-     * @param \Spryker\Shared\ZedRequest\Client\AbstractZedClientInterface $zedClient
-     * @param \Spryker\Shared\ZedRequest\Logger\ZedRequestLoggerInterface $zedRequestLogger
-     */
     public function __construct(AbstractZedClientInterface $zedClient, ZedRequestLoggerInterface $zedRequestLogger)
     {
         $this->zedClient = $zedClient;
@@ -62,17 +58,11 @@ class LoggableZedClient implements AbstractZedClientInterface
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function hasLastResponse(): bool
     {
         return $this->zedClient->hasLastResponse();
     }
 
-    /**
-     * @return \Spryker\Shared\ZedRequest\Client\ResponseInterface
-     */
     public function getLastResponse(): ResponseInterface
     {
         return $this->zedClient->getLastResponse();

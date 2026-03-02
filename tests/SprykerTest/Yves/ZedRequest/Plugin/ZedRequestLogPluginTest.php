@@ -26,9 +26,6 @@ use Spryker\Yves\ZedRequest\Plugin\ZedRequestLogPlugin;
  */
 class ZedRequestLogPluginTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testGetNameShouldReturnString(): void
     {
         $zedRequestLogPlugin = new ZedRequestLogPlugin();
@@ -36,9 +33,6 @@ class ZedRequestLogPluginTest extends Unit
         $this->assertIsString($zedRequestLogPlugin->getName());
     }
 
-    /**
-     * @return void
-     */
     public function testGetCallableShouldReturnCallable(): void
     {
         $zedRequestLogPlugin = new ZedRequestLogPlugin();
@@ -46,9 +40,6 @@ class ZedRequestLogPluginTest extends Unit
         $this->assertIsCallable($zedRequestLogPlugin->getCallable());
     }
 
-    /**
-     * @return void
-     */
     public function testExecuteCallableShouldCallLogger(): void
     {
         $loggerMock = $this->getLoggerMock();

@@ -9,17 +9,7 @@ namespace Spryker\Shared\ZedRequest\Logger;
 
 interface ZedRequestLoggerInterface
 {
-    /**
-     * @param string $url
-     * @param array $payload
-     * @param array $result
-     *
-     * @return void
-     */
     public function log(string $url, array $payload, array $result, array $debug = []): void;
 
-    /**
-     * @return array
-     */
     public function getLogs(): array;
 }

@@ -16,9 +16,6 @@ class ZedRequestStub
      */
     protected $zedStub;
 
-    /**
-     * @param \Spryker\Client\ZedRequest\ZedRequestClientInterface $zedStub
-     */
     public function __construct(ZedRequestClientInterface $zedStub)
     {
         $this->zedStub = $zedStub;

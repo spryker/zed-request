@@ -32,9 +32,6 @@ class ZedRequestClientTester extends Actor
 {
     use _generated\ZedRequestClientTesterActions;
 
-    /**
-     * @return \Spryker\Shared\ZedRequest\Client\AbstractZedClientInterface
-     */
     public function createLoggableZedClient(): AbstractZedClientInterface
     {
         return $this->getFactory()->createLoggableZedClient();

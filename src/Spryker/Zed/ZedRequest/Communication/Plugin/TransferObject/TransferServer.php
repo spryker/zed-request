@@ -47,9 +47,6 @@ class TransferServer
      */
     protected $repeater;
 
-    /**
-     * @param \Spryker\Zed\ZedRequest\Business\Model\Repeater $repeater
-     */
     private function __construct(Repeater $repeater)
     {
         $this->repeater = $repeater;

@@ -36,9 +36,6 @@ class AbstractHttpClientTest extends Unit
      */
     public const TRANSFER_VALUE = 'catface';
 
-    /**
-     * @return void
-     */
     public function testRequest(): void
     {
         $abstractRequest = $this->getAbstractRequestMock(['sendRequest']);
@@ -54,9 +51,6 @@ class AbstractHttpClientTest extends Unit
         $this->assertSame(static::TRANSFER_VALUE, $transfer->getKey());
     }
 
-    /**
-     * @return void
-     */
     public function testRequestShouldLogExceptionWhenRequestExceptionOccures(): void
     {
         $abstractRequest = $this->getAbstractRequestMock(['sendRequest', 'logException']);

@@ -28,9 +28,6 @@ class ZedRequestConfigTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function testOverrideClientConfig(): void
     {
         $configuredClientOptions = [

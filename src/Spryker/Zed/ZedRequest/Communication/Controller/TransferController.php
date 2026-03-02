@@ -57,12 +57,6 @@ class TransferController extends AbstractController
         return $this->handle($request, HttpKernelInterface::SUB_REQUEST);
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param int $type
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     protected function handle(Request $request, int $type): Response
     {
         $current = $this->getApplication()->get('request');
@@ -74,9 +68,6 @@ class TransferController extends AbstractController
         return $response;
     }
 
-    /**
-     * @return \Symfony\Component\HttpKernel\HttpKernelInterface
-     */
     protected function getKernel(): HttpKernelInterface
     {
         return $this->getApplication()->get('kernel');

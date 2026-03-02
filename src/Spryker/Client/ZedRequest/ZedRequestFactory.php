@@ -33,9 +33,6 @@ class ZedRequestFactory extends AbstractFactory
      */
     protected static $zedClient;
 
-    /**
-     * @return \Spryker\Client\ZedRequest\Messenger\MessengerInterface
-     */
     public function createMessenger(): MessengerInterface
     {
         return new Messenger(
@@ -68,9 +65,6 @@ class ZedRequestFactory extends AbstractFactory
         return $this->createLoggableZedClient();
     }
 
-    /**
-     * @return \Spryker\Shared\ZedRequest\Client\AbstractZedClientInterface
-     */
     public function createZedClient(): AbstractZedClientInterface
     {
         return new ZedClient(
@@ -78,9 +72,6 @@ class ZedRequestFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \Spryker\Shared\ZedRequest\Client\AbstractZedClientInterface
-     */
     public function createLoggableZedClient(): AbstractZedClientInterface
     {
         return new LoggableZedClient(
@@ -89,9 +80,6 @@ class ZedRequestFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \Spryker\Shared\ZedRequest\Logger\ZedRequestLoggerInterface
-     */
     public function createZedRequestLogger(): ZedRequestLoggerInterface
     {
         return new ZedRequestInMemoryLogger(
@@ -121,17 +109,11 @@ class ZedRequestFactory extends AbstractFactory
         return $this->getProvidedDependency(ZedRequestDependencyProvider::PLUGINS_HEADER_EXPANDER);
     }
 
-    /**
-     * @return \Spryker\Client\ZedRequest\Header\AuthToken\AuthTokenInterface
-     */
     public function createAuthToken(): AuthTokenInterface
     {
         return new AuthToken($this->getConfig(), $this->getUtilTextService());
     }
 
-    /**
-     * @return \Spryker\Client\ZedRequest\Header\RequestId\RequestIdInterface
-     */
     public function createRequestId(): RequestIdInterface
     {
         return new RequestId($this->getUtilNetworkService());
@@ -179,17 +161,11 @@ class ZedRequestFactory extends AbstractFactory
         return $this->getProvidedDependency(ZedRequestDependencyProvider::CLIENT_MESSENGER);
     }
 
-    /**
-     * @return \Spryker\Shared\ZedRequest\Dependency\Service\ZedRequestToUtilEncodingServiceInterface
-     */
     public function getUtilEncodingService(): ZedRequestToUtilEncodingServiceInterface
     {
         return $this->getProvidedDependency(ZedRequestDependencyProvider::SERVICE_UTIL_ENCODING);
     }
 
-    /**
-     * @return \Spryker\Client\ZedRequest\Dependency\Client\ZedRequestToLocaleClientInterface
-     */
     public function getLocaleClient(): ZedRequestToLocaleClientInterface
     {
         return $this->getProvidedDependency(ZedRequestDependencyProvider::CLIENT_LOCALE);

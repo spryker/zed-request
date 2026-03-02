@@ -29,9 +29,6 @@ class TransferServer extends CoreTransferServer
         return $this;
     }
 
-    /**
-     * @return \Spryker\Zed\ZedRequest\Business\Client\Request
-     */
     public function getRequest(): Request
     {
         if ($this->fixtureRequest !== null) {

@@ -41,11 +41,6 @@ class ResponseTest extends Unit
      */
     public const MESSAGE_ERROR = 'error';
 
-    /**
-     * @param \Spryker\Shared\Kernel\Transfer\TransferInterface $transfer
-     *
-     * @return \Spryker\Client\ZedRequest\Client\Response
-     */
     protected function createFullResponse(TransferInterface $transfer): Response
     {
         $response = new Response();
@@ -63,11 +58,6 @@ class ResponseTest extends Unit
         return $response;
     }
 
-    /**
-     * @param string $value
-     *
-     * @return \Generated\Shared\Transfer\MessageTransfer
-     */
     protected function getMessageTransfer(string $value): MessageTransfer
     {
         $errorMessage = new MessageTransfer();
@@ -77,18 +67,12 @@ class ResponseTest extends Unit
         return $errorMessage;
     }
 
-    /**
-     * @return void
-     */
     public function testDefaultSuccessIsTrue(): void
     {
         $response = new Response();
         $this->assertTrue($response->isSuccess());
     }
 
-    /**
-     * @return void
-     */
     public function testDefaultTransferThrowsException(): void
     {
         $response = new Response();
@@ -98,9 +82,6 @@ class ResponseTest extends Unit
         $response->getTransfer();
     }
 
-    /**
-     * @return void
-     */
     public function testGetterAndSetters(): void
     {
         $transfer = new TestTransfer();
@@ -118,9 +99,6 @@ class ResponseTest extends Unit
         $this->assertEquals(['debug' => 'debug'], $response->getDebug());
     }
 
-    /**
-     * @return void
-     */
     public function testToArrayAndFromArray(): void
     {
         $transfer = new TestTransfer();
@@ -138,9 +116,6 @@ class ResponseTest extends Unit
         $this->assertNotSame($response, $newResponse);
     }
 
-    /**
-     * @return void
-     */
     public function testHasMethods(): void
     {
         $response = new Response();

@@ -18,17 +18,11 @@ class ZedRequestHealthCheck implements HealthCheckInterface
      */
     protected $zedRequestClient;
 
-    /**
-     * @param \Spryker\Client\ZedRequest\ZedRequestClientInterface $zedRequestClient
-     */
     public function __construct(ZedRequestClientInterface $zedRequestClient)
     {
         $this->zedRequestClient = $zedRequestClient;
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\HealthCheckServiceResponseTransfer
-     */
     public function executeHealthCheck(): HealthCheckServiceResponseTransfer
     {
         $healthCheckServiceResponseTransfer = (new HealthCheckServiceResponseTransfer())

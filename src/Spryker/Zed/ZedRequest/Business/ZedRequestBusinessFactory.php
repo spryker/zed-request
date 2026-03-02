@@ -28,25 +28,16 @@ class ZedRequestBusinessFactory extends AbstractBusinessFactory
         return new Repeater();
     }
 
-    /**
-     * @return \Spryker\Zed\ZedRequest\Business\Reader\ZedRequestReaderInterface
-     */
     public function createZedRequestReader(): ZedRequestReaderInterface
     {
         return new ZedRequestReader($this->getCurrentRequest());
     }
 
-    /**
-     * @return \Symfony\Component\HttpFoundation\Request
-     */
     public function getCurrentRequest(): Request
     {
         return $this->getRequestStack()->getCurrentRequest();
     }
 
-    /**
-     * @return \Symfony\Component\HttpFoundation\RequestStack
-     */
     public function getRequestStack(): RequestStack
     {
         return $this->getProvidedDependency(ZedRequestDependencyProvider::SERVICE_REQUEST_STACK);

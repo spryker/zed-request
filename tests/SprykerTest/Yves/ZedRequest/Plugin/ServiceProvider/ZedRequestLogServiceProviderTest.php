@@ -27,18 +27,12 @@ use Spryker\Yves\ZedRequest\Plugin\ServiceProvider\ZedRequestLogServiceProvider;
  */
 class ZedRequestLogServiceProviderTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testRegisterShouldDoNothing(): void
     {
         $serviceProvider = new ZedRequestLogServiceProvider();
         $serviceProvider->register(new Application());
     }
 
-    /**
-     * @return void
-     */
     public function testBootShouldAddGuzzleLogMiddleware(): void
     {
         $application = new Application();

@@ -19,11 +19,6 @@ class MetadataHelper extends Module
 {
     use DependencyHelperTrait;
 
-    /**
-     * @param \Codeception\TestInterface $test
-     *
-     * @return void
-     */
     public function _before(TestInterface $test): void
     {
         $this->setDependency(ZedRequestDependencyProvider::META_DATA_PROVIDER_PLUGINS, [

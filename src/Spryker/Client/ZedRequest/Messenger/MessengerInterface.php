@@ -44,8 +44,5 @@ interface MessengerInterface
      */
     public function getResponsesSuccessMessages(): array;
 
-    /**
-     * @return void
-     */
     public function addResponseMessagesToMessenger(): void;
 }

@@ -45,9 +45,6 @@ class GatewayControllerEventDispatcherPluginTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -68,18 +65,12 @@ class GatewayControllerEventDispatcherPluginTest extends Unit
         $reflectedProperty->setValue(null);
     }
 
-    /**
-     * @return void
-     */
     protected function tearDown(): void
     {
         parent::tearDown();
         $this->resetTransferServer();
     }
 
-    /**
-     * @return void
-     */
     public function testWhenControllerIsGatewayControllerPluginMustReturnInstanceOfClosure(): void
     {
         $controller = new GatewayController();
@@ -93,9 +84,6 @@ class GatewayControllerEventDispatcherPluginTest extends Unit
         $this->assertInstanceOf('\Closure', $controllerCallable);
     }
 
-    /**
-     * @return void
-     */
     public function testWhenControllerIsNotAGatewayControllerPluginMustReturnPassedCallable(): void
     {
         $action = 'badAction';
@@ -109,9 +97,6 @@ class GatewayControllerEventDispatcherPluginTest extends Unit
         $this->assertNotInstanceOf('\Closure', $controllerCallable);
     }
 
-    /**
-     * @return void
-     */
     public function testIfTwoTransferParameterGivenPluginMustThrowException(): void
     {
         $this->expectException(LogicException::class);
@@ -122,9 +107,6 @@ class GatewayControllerEventDispatcherPluginTest extends Unit
         call_user_func($controllerCallable);
     }
 
-    /**
-     * @return void
-     */
     public function testIfTooManyTransferParameterGivenPluginMustThrowException(): void
     {
         $this->expectException(LogicException::class);
@@ -135,9 +117,6 @@ class GatewayControllerEventDispatcherPluginTest extends Unit
         call_user_func($controllerCallable);
     }
 
-    /**
-     * @return void
-     */
     public function testIfPassedParameterIsNotAClassPluginMustThrowException(): void
     {
         $this->expectException(LogicException::class);
@@ -148,9 +127,6 @@ class GatewayControllerEventDispatcherPluginTest extends Unit
         call_user_func($controllerCallable);
     }
 
-    /**
-     * @return void
-     */
     public function testWhenObjectIsNotTransferClassPluginMustThrowException(): void
     {
         $this->expectException(LogicException::class);
@@ -203,9 +179,6 @@ class GatewayControllerEventDispatcherPluginTest extends Unit
         call_user_func($controllerCallable);
     }
 
-    /**
-     * @return void
-     */
     public function testWhenControllerIsGatewayControllerAndOnlyOneTransferObjectIsGivenActionMustReturnResponse(): void
     {
         $transfer = $this->getTransferMock();
@@ -215,9 +188,6 @@ class GatewayControllerEventDispatcherPluginTest extends Unit
         $this->assertInstanceOf(JsonResponse::class, $response);
     }
 
-    /**
-     * @return void
-     */
     public function testTransformMessagesFromController(): void
     {
         $action = 'transformMessageAction';
@@ -246,11 +216,6 @@ class GatewayControllerEventDispatcherPluginTest extends Unit
             ->getMock();
     }
 
-    /**
-     * @param \Spryker\Shared\Kernel\Transfer\TransferInterface $transferObject
-     *
-     * @return void
-     */
     private function initTransferServer(TransferInterface $transferObject): void
     {
         $oldTransferServer = CoreTransferServer::getInstance();
@@ -261,9 +226,6 @@ class GatewayControllerEventDispatcherPluginTest extends Unit
         TransferServer::getInstance()->setFixtureRequest($request);
     }
 
-    /**
-     * @return void
-     */
     private function resetTransferServer(): void
     {
         $fixtureServer = TransferServer::getInstance();

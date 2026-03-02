@@ -16,17 +16,11 @@ class RequestId implements RequestIdInterface
      */
     protected $utilNetworkService;
 
-    /**
-     * @param \Spryker\Service\UtilNetwork\UtilNetworkServiceInterface $utilNetworkService
-     */
     public function __construct(UtilNetworkServiceInterface $utilNetworkService)
     {
         $this->utilNetworkService = $utilNetworkService;
     }
 
-    /**
-     * @return string
-     */
     public function getRequestId(): string
     {
         return $this->utilNetworkService->getRequestId();

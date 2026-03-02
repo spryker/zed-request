@@ -22,10 +22,6 @@ class Messenger implements MessengerInterface
      */
     protected $messengerClient;
 
-    /**
-     * @param \Spryker\Shared\ZedRequest\Client\AbstractZedClientInterface $zedClient
-     * @param \Spryker\Client\ZedRequest\Dependency\Client\ZedRequestToMessengerClientInterface $messengerClient
-     */
     public function __construct(
         AbstractZedClientInterface $zedClient,
         ZedRequestToMessengerClientInterface $messengerClient
@@ -134,9 +130,6 @@ class Messenger implements MessengerInterface
         return $this->zedClient->getSuccessStatusMessages();
     }
 
-   /**
-    * @return void
-    */
     protected function pushResponseErrorMessagesToMessenger(): void
     {
         foreach ($this->getResponsesErrorMessages() as $errorMessage) {
@@ -144,9 +137,6 @@ class Messenger implements MessengerInterface
         }
     }
 
-    /**
-     * @return void
-     */
     protected function pushResponseSuccessMessagesToMessenger(): void
     {
         foreach ($this->getResponsesSuccessMessages() as $successMessage) {
@@ -154,9 +144,6 @@ class Messenger implements MessengerInterface
         }
     }
 
-    /**
-     * @return void
-     */
     protected function pushResponseInfoMessagesToMessenger(): void
     {
         foreach ($this->getResponsesInfoMessages() as $infoMessage) {
@@ -164,9 +151,6 @@ class Messenger implements MessengerInterface
         }
     }
 
-    /**
-     * @return void
-     */
     public function addResponseMessagesToMessenger(): void
     {
         $this->pushResponseErrorMessagesToMessenger();

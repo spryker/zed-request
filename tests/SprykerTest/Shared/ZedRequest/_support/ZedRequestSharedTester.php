@@ -31,9 +31,6 @@ class ZedRequestSharedTester extends Actor
 {
     use _generated\ZedRequestSharedTesterActions;
 
-    /**
-     * @return \Spryker\Shared\ZedRequest\Logger\ZedRequestLoggerInterface
-     */
     public function createZedRequestInMemoryLogger(): ZedRequestLoggerInterface
     {
         return new ZedRequestInMemoryLogger(
@@ -41,9 +38,6 @@ class ZedRequestSharedTester extends Actor
         );
     }
 
-    /**
-     * @return \Spryker\Shared\ZedRequest\Dependency\Service\ZedRequestToUtilEncodingServiceInterface
-     */
     public function getUtilEncodingService(): ZedRequestToUtilEncodingServiceInterface
     {
         return new ZedRequestToUtilEncodingServiceBridge(

@@ -49,11 +49,6 @@ class ZedRequestCommunicationTester extends Actor
         return Stub::makeEmpty(ZedRequestToMessengerInterface::class);
     }
 
-    /**
-     * @param callable $controller
-     *
-     * @return \Symfony\Component\HttpKernel\Event\ControllerEvent
-     */
     public function createControllerEvent(callable $controller): ControllerEvent
     {
         $controllerEvent = new ControllerEvent(
@@ -66,9 +61,6 @@ class ZedRequestCommunicationTester extends Actor
         return $controllerEvent;
     }
 
-    /**
-     * @return \Symfony\Component\HttpKernel\HttpKernelInterface
-     */
     protected function getHttpKernelMock(): HttpKernelInterface
     {
         /** @var \Symfony\Component\HttpKernel\HttpKernelInterface $httpKernelMock */

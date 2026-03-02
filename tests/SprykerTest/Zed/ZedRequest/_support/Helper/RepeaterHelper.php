@@ -35,11 +35,6 @@ class RepeaterHelper extends Module
      */
     public const ACTION = 'action';
 
-    /**
-     * @param \Codeception\TestInterface $test
-     *
-     * @return void
-     */
     public function _before(TestInterface $test): void
     {
         $this->cleanupFixtureDirectory();
@@ -67,9 +62,6 @@ class RepeaterHelper extends Module
         return $this->getModule('\\' . ConfigHelper::class);
     }
 
-    /**
-     * @return void
-     */
     private function cleanupFixtureDirectory(): void
     {
         $fixtureDirectory = $this->getPathToYvesRequestRepeatData();
@@ -79,9 +71,6 @@ class RepeaterHelper extends Module
         }
     }
 
-    /**
-     * @return string
-     */
     private function getPathToYvesRequestRepeatData(): string
     {
         $pathToYvesRequestRepeatData = Configuration::dataDir() . 'Fixtures' . DIRECTORY_SEPARATOR;
@@ -89,9 +78,6 @@ class RepeaterHelper extends Module
         return $pathToYvesRequestRepeatData;
     }
 
-    /**
-     * @return string
-     */
     public function getDefaultFileName(): string
     {
         $defaultFileName = $this->getPathToYvesRequestRepeatData() . $this->getConfig()->getYvesRequestRepeatDataFileName();
@@ -99,9 +85,6 @@ class RepeaterHelper extends Module
         return $defaultFileName;
     }
 
-    /**
-     * @return \Spryker\Zed\ZedRequest\ZedRequestConfig
-     */
     private function getConfig(): ZedRequestConfig
     {
         return new ZedRequestConfig();
@@ -121,9 +104,6 @@ class RepeaterHelper extends Module
         return $mvcFileName;
     }
 
-    /**
-     * @return string
-     */
     public function getBundleControllerAction(): string
     {
         $mvc = implode('_', [
@@ -135,9 +115,6 @@ class RepeaterHelper extends Module
         return $mvc;
     }
 
-    /**
-     * @return string
-     */
     public function getInvalidBundleControllerAction(): string
     {
         $mvc = implode('_', [
@@ -149,9 +126,6 @@ class RepeaterHelper extends Module
         return $mvc;
     }
 
-    /**
-     * @return \Spryker\Shared\ZedRequest\Client\AbstractRequest
-     */
     public function getTransferRequest(): AbstractRequest
     {
         /** @var \Spryker\Shared\ZedRequest\Client\AbstractRequest $request */
@@ -160,9 +134,6 @@ class RepeaterHelper extends Module
         return $request;
     }
 
-    /**
-     * @return \Symfony\Component\HttpFoundation\Request
-     */
     public function getHttpRequest(): Request
     {
         $httpRequest = new Request();
@@ -173,9 +144,6 @@ class RepeaterHelper extends Module
         return $httpRequest;
     }
 
-    /**
-     * @return \Symfony\Component\HttpFoundation\Request
-     */
     public function getHttpRequestWithInvalidBundleAttribute(): Request
     {
         $httpRequest = new Request();
@@ -186,9 +154,6 @@ class RepeaterHelper extends Module
         return $httpRequest;
     }
 
-    /**
-     * @return \Symfony\Component\HttpFoundation\Request
-     */
     public function getHttpRequestWithInvalidControllerAttribute(): Request
     {
         $httpRequest = new Request();
@@ -199,9 +164,6 @@ class RepeaterHelper extends Module
         return $httpRequest;
     }
 
-    /**
-     * @return \Symfony\Component\HttpFoundation\Request
-     */
     public function getHttpRequestWithInvalidActionAttribute(): Request
     {
         $httpRequest = new Request();

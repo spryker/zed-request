@@ -24,9 +24,6 @@ use SprykerTest\Shared\ZedRequest\Client\Fixture\Transfer;
  */
 class AbstractRequestTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testGetTransferMustReturnNullIfNoTransferClassNameProvided(): void
     {
         $data = [];
@@ -35,9 +32,6 @@ class AbstractRequestTest extends Unit
         $this->assertNull($abstractRequest->getTransfer());
     }
 
-    /**
-     * @return void
-     */
     public function testGetTransferMustReturnTransferIfTransferClassNameAndDataProvided(): void
     {
         $data = [
@@ -49,9 +43,6 @@ class AbstractRequestTest extends Unit
         $this->assertInstanceOf(AbstractTransfer::class, $abstractRequest->getTransfer());
     }
 
-    /**
-     * @return void
-     */
     public function testGetTransferMustReturnTransferIfTransferClassNameProvidedButNoDataGiven(): void
     {
         $data = [

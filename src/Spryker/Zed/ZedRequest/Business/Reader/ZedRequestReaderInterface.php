@@ -11,8 +11,5 @@ use Spryker\Shared\ZedRequest\Client\AbstractRequest;
 
 interface ZedRequestReaderInterface
 {
-    /**
-     * @return \Spryker\Shared\ZedRequest\Client\AbstractRequest
-     */
     public function getCurrentZedRequest(): AbstractRequest;
 }

@@ -234,9 +234,6 @@ Configured with %s %s:%s in %s. Error: Stacktrace:';
      */
     abstract public function getHeaders();
 
-    /**
-     * @return string
-     */
     protected function getConfigFilePathName(): string
     {
         return APPLICATION_ROOT_DIR .
@@ -244,9 +241,6 @@ Configured with %s %s:%s in %s. Error: Stacktrace:';
             static::CONFIG_FILE_SUFFIX;
     }
 
-    /**
-     * @return string
-     */
     protected function setSslStatusMessage(): string
     {
         if (Config::get(static::ZED_API_SSL_ENABLED)) {
@@ -304,11 +298,6 @@ Configured with %s %s:%s in %s. Error: Stacktrace:';
         return $responseTransfer;
     }
 
-    /**
-     * @param \Throwable $throwable
-     *
-     * @return void
-     */
     protected function logException(Throwable $throwable): void
     {
         ErrorLogger::getInstance()->log($throwable);
@@ -516,12 +505,6 @@ Configured with %s %s:%s in %s. Error: Stacktrace:';
         return $responseTransfer;
     }
 
-    /**
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @param \Spryker\Shared\ZedRequest\Client\ResponseInterface $responseTransfer
-     *
-     * @return \Spryker\Shared\ZedRequest\Client\ResponseInterface
-     */
     protected function setDebugInformationFromResponse(
         MessageResponseInterface $response,
         ResponseInterface $responseTransfer

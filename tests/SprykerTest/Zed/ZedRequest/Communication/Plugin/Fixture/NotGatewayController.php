@@ -11,20 +11,11 @@ use Spryker\Shared\Kernel\Transfer\TransferInterface;
 
 class NotGatewayController
 {
-    /**
-     * @return string
-     */
     public function badAction(): string
     {
         return 'bad';
     }
 
-    /**
-     * @param \Spryker\Shared\Kernel\Transfer\TransferInterface $foo
-     * @param int $bar
-     *
-     * @return int
-     */
     public function bazAction(TransferInterface $foo, int $bar = 0): int
     {
         if ($foo) {

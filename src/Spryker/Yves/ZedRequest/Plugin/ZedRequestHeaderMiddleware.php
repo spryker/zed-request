@@ -19,9 +19,6 @@ class ZedRequestHeaderMiddleware implements MiddlewareInterface
      */
     protected $utilNetworkService;
 
-    /**
-     * @param \Spryker\Yves\ZedRequest\Dependency\Service\ZedRequestToUtilNetworkInterface $utilNetworkService
-     */
     public function __construct(ZedRequestToUtilNetworkInterface $utilNetworkService)
     {
         $this->utilNetworkService = $utilNetworkService;

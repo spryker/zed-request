@@ -51,9 +51,6 @@ abstract class AbstractZedClient implements AbstractZedClientInterface
      */
     protected $metaTransfers = [];
 
-    /**
-     * @param \Spryker\Shared\ZedRequest\Client\HttpClientInterface $httpClient
-     */
     public function __construct(HttpClientInterface $httpClient)
     {
         $this->httpClient = $httpClient;
@@ -156,11 +153,6 @@ abstract class AbstractZedClient implements AbstractZedClientInterface
         return $this->metaTransfers;
     }
 
-    /**
-     * @param \Spryker\Shared\ZedRequest\Client\ResponseInterface $response
-     *
-     * @return void
-     */
     protected function collectStatusMessages(ResponseInterface $response): void
     {
         foreach ($response->getErrorMessages() as $errorMessage) {
