@@ -44,6 +44,14 @@ class ZedRequestLogPlugin implements MiddlewareInterface
                 ), ['guzzle-body' => $request->getBody()->getContents()]);
             }
 
+            // Guzzle 7.11+ enforces a `protocols` allow-list (default ['http', 'https'])
+            // inside CurlFactory and rejects requests with an empty scheme synchronously.
+            // Production Zed callers always pass URIs with an explicit scheme; this
+            // defensive normalization keeps the middleware robust against malformed input.
+            if ($request->getUri()->getScheme() === '') {
+                $request = $request->withUri($request->getUri()->withScheme('http'));
+            }
+
             return $request;
         });
     }
