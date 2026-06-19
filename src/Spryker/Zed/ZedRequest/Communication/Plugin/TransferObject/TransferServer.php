@@ -8,7 +8,9 @@
 namespace Spryker\Zed\ZedRequest\Communication\Plugin\TransferObject;
 
 use LogicException;
+use Spryker\Shared\Config\Config;
 use Spryker\Shared\ZedRequest\Client\ResponseInterface;
+use Spryker\Shared\ZedRequest\ZedRequestConstants;
 use Spryker\Zed\ZedRequest\Business\Client\Request;
 use Spryker\Zed\ZedRequest\Business\Model\Repeater;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -97,7 +99,7 @@ class TransferServer
             } else {
                 /** @phpstan-var string */
                 $content = $this->getHttpRequest()->getContent();
-                $transferValues = json_decode($content, true);
+                $transferValues = json_decode($this->decodeTransferContent($content), true);
                 $this->request = new Request($transferValues);
                 $this->repeater->setRepeatData($this->request, $this->httpRequest);
             }
@@ -154,6 +156,20 @@ class TransferServer
             $jsonResponse->setEncodingOptions(JSON_PRETTY_PRINT);
         }
 
+        if ($this->isBase64TransferEncodingEnabled() && !$this->repeatIsActive) {
+            $jsonResponse->setContent(base64_encode((string)$jsonResponse->getContent()));
+        }
+
         return $jsonResponse;
+    }
+
+    protected function decodeTransferContent(string $content): string
+    {
+        return $this->isBase64TransferEncodingEnabled() ? (string)base64_decode($content) : $content;
+    }
+
+    protected function isBase64TransferEncodingEnabled(): bool
+    {
+        return Config::get(ZedRequestConstants::TRANSFER_BASE64_ENCODING_ENABLED, false);
     }
 }

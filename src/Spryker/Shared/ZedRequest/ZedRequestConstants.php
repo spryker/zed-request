@@ -142,4 +142,16 @@ interface ZedRequestConstants
      * @var string
      */
     public const XDEBUG_PROFILER_NAME = 'ZED_REQUEST:XDEBUG_PROFILER_NAME';
+
+    /**
+     * Specification:
+     * - Enables base64 encoding for gateway request and response body.
+     * - When enabled, the request body is base64-encoded before sending to Zed.
+     * - When enabled, the response body is base64-decoded before processing on the client side.
+     *
+     * @api
+     *
+     * @var string
+     */
+    public const TRANSFER_BASE64_ENCODING_ENABLED = 'ZED_REQUEST:TRANSFER_BASE64_ENCODING_ENABLED';
 }

@@ -445,16 +445,30 @@ Configured with %s %s:%s in %s. Error: Stacktrace:';
     protected function buildRequestOptions(ObjectInterface $requestTransfer, $requestOptions = null)
     {
         $normalizedRequestOptions = $this->normalizeRequestOptions($requestOptions);
-        $requestOptions = [
-            'json' => $requestTransfer->toArray(),
-            'allow_redirects' => [
-                'strict' => true,
-            ],
+        $bodyOptions = $this->buildBodyRequestOptions($requestTransfer);
+
+        return array_merge($bodyOptions, $normalizedRequestOptions);
+    }
+
+    protected function buildBodyRequestOptions(ObjectInterface $requestTransfer): array
+    {
+        $options = [
+            'allow_redirects' => ['strict' => true],
         ];
+        if ($this->isBase64TransferEncodingEnabled()) {
+            $options['body'] = base64_encode((string)json_encode($requestTransfer->toArray()));
+            $options['headers'] = ['Content-Type' => 'text/plain'];
 
-        $requestOptions = array_merge($requestOptions, $normalizedRequestOptions);
+            return $options;
+        }
+        $options['json'] = $requestTransfer->toArray();
 
-        return $requestOptions;
+        return $options;
+    }
+
+    protected function isBase64TransferEncodingEnabled(): bool
+    {
+        return Config::get(ZedRequestConstants::TRANSFER_BASE64_ENCODING_ENABLED, false);
     }
 
     /**
@@ -493,7 +507,10 @@ Configured with %s %s:%s in %s. Error: Stacktrace:';
      */
     protected function getTransferFromResponse(MessageResponseInterface $response, MessageRequestInterface $request)
     {
-        $data = json_decode(trim($response->getBody()), true);
+        $body = trim($response->getBody());
+        $body = $this->isBase64TransferEncodingEnabled() ? trim((string)base64_decode($body)) : $body;
+
+        $data = json_decode($body, true);
         if (!$data || !is_array($data)) {
             throw new InvalidZedResponseException('Invalid JSON', $response, $request->getUri());
         }

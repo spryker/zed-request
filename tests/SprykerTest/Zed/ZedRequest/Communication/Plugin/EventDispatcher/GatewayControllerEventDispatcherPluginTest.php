@@ -15,6 +15,7 @@ use Spryker\Service\Container\Container;
 use Spryker\Shared\EventDispatcher\EventDispatcher;
 use Spryker\Shared\Kernel\AbstractLocatorLocator;
 use Spryker\Shared\Kernel\Transfer\TransferInterface;
+use Spryker\Shared\ZedRequest\ZedRequestConstants;
 use Spryker\Zed\ZedRequest\Business\Model\Repeater;
 use Spryker\Zed\ZedRequest\Communication\Plugin\EventDispatcher\GatewayControllerEventDispatcherPlugin;
 use Spryker\Zed\ZedRequest\Communication\Plugin\TransferObject\TransferServer as CoreTransferServer;
@@ -179,8 +180,13 @@ class GatewayControllerEventDispatcherPluginTest extends Unit
         call_user_func($controllerCallable);
     }
 
-    public function testWhenControllerIsGatewayControllerAndOnlyOneTransferObjectIsGivenActionMustReturnResponse(): void
+    /**
+     * @dataProvider base64EncodingDataProvider
+     */
+    public function testWhenControllerIsGatewayControllerAndOnlyOneTransferObjectIsGivenActionMustReturnResponse(bool $isBase64Enabled): void
     {
+        $this->tester->setConfig(ZedRequestConstants::TRANSFER_BASE64_ENCODING_ENABLED, $isBase64Enabled);
+
         $transfer = $this->getTransferMock();
         $controllerCallable = $this->executeMockedListenerTest('goodAction', $transfer);
 
@@ -188,22 +194,46 @@ class GatewayControllerEventDispatcherPluginTest extends Unit
         $this->assertInstanceOf(JsonResponse::class, $response);
     }
 
-    public function testTransformMessagesFromController(): void
+    /**
+     * @dataProvider base64EncodingDataProvider
+     */
+    public function testTransformMessagesFromController(bool $isBase64Enabled): void
     {
-        $action = 'transformMessageAction';
+        $this->tester->setConfig(ZedRequestConstants::TRANSFER_BASE64_ENCODING_ENABLED, $isBase64Enabled);
 
         $transfer = $this->getTransferMock();
-        $controllerCallable = $this->executeMockedListenerTest($action, $transfer);
+        $controllerCallable = $this->executeMockedListenerTest('transformMessageAction', $transfer);
 
         $response = call_user_func($controllerCallable);
         $this->assertInstanceOf(JsonResponse::class, $response);
 
-        $responseContent = json_decode($response->getContent(), true);
+        $responseContent = $this->decodeResponseContent($response, $isBase64Enabled);
 
         $this->assertArrayHasKey('infoMessages', $responseContent);
         $this->assertArrayHasKey('errorMessages', $responseContent);
         $this->assertArrayHasKey('successMessages', $responseContent);
         $this->assertArrayHasKey('success', $responseContent);
+    }
+
+    /**
+     * @return array<string, array<bool>>
+     */
+    public function base64EncodingDataProvider(): array
+    {
+        return [
+            'base64 disabled' => [false],
+            'base64 enabled' => [true],
+        ];
+    }
+
+    protected function decodeResponseContent(JsonResponse $response, bool $isBase64Enabled): array
+    {
+        $content = $response->getContent();
+        if ($isBase64Enabled) {
+            $content = (string)base64_decode($content);
+        }
+
+        return json_decode($content, true) ?? [];
     }
 
     /**

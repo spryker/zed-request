@@ -10,6 +10,9 @@ namespace Spryker\Zed\ZedRequest;
 use Spryker\Shared\ZedRequest\ZedRequestConstants;
 use Spryker\Zed\Kernel\AbstractBundleConfig;
 
+/**
+ * @method \Spryker\Shared\ZedRequest\ZedRequestConfig getSharedConfig()
+ */
 class ZedRequestConfig extends AbstractBundleConfig
 {
     /**
@@ -63,6 +66,16 @@ class ZedRequestConfig extends AbstractBundleConfig
     public function isRepeatEnabled(): bool
     {
         return $this->get(ZedRequestConstants::ENABLE_REPEAT, $this->getEnableRepeatDefaultValue());
+    }
+
+    /**
+     * @api
+     *
+     * @return bool
+     */
+    public function isBase64TransferEncodingEnabled(): bool
+    {
+        return $this->getSharedConfig()->isBase64TransferEncodingEnabled();
     }
 
     /**

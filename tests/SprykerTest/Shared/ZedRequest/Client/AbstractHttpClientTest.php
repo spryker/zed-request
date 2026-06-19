@@ -36,19 +36,34 @@ class AbstractHttpClientTest extends Unit
      */
     public const TRANSFER_VALUE = 'catface';
 
-    public function testRequest(): void
+    public function testTransmissionWithBase64Disabled(): void
     {
-        $abstractRequest = $this->getAbstractRequestMock(['sendRequest']);
+        $client = $this->getAbstractRequestMock(['sendRequest', 'isBase64TransferEncodingEnabled']);
+        $client->method('isBase64TransferEncodingEnabled')->willReturn(false);
 
-        $body = json_encode([
+        $responseBody = (string)json_encode([
             ResponseInterface::TRANSFER => ['key' => static::TRANSFER_VALUE],
             ResponseInterface::TRANSFER_CLASSNAME => Transfer::class,
         ]);
-        $abstractRequest->expects($this->once())->method('sendRequest')->willReturn(new Response(200, [], $body));
+        $client->method('sendRequest')->willReturn(new Response(200, [], $responseBody));
 
-        $response = $abstractRequest->request('?foo=bar');
-        $transfer = $response->getTransfer();
-        $this->assertSame(static::TRANSFER_VALUE, $transfer->getKey());
+        $response = $client->request('?foo=bar');
+        $this->assertSame(static::TRANSFER_VALUE, $response->getTransfer()->getKey());
+    }
+
+    public function testTransmissionWithBase64Enabled(): void
+    {
+        $client = $this->getAbstractRequestMock(['sendRequest', 'isBase64TransferEncodingEnabled']);
+        $client->method('isBase64TransferEncodingEnabled')->willReturn(true);
+
+        $responseBody = base64_encode((string)json_encode([
+            ResponseInterface::TRANSFER => ['key' => static::TRANSFER_VALUE],
+            ResponseInterface::TRANSFER_CLASSNAME => Transfer::class,
+        ]));
+        $client->method('sendRequest')->willReturn(new Response(200, [], $responseBody));
+
+        $response = $client->request('?foo=bar');
+        $this->assertSame(static::TRANSFER_VALUE, $response->getTransfer()->getKey());
     }
 
     public function testRequestShouldLogExceptionWhenRequestExceptionOccures(): void
@@ -63,7 +78,7 @@ class AbstractHttpClientTest extends Unit
     }
 
     /**
-     * @param array $methods
+     * @param array<string> $methods
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerTest\Shared\ZedRequest\Client\Fixture\AbstractHttpClient
      */

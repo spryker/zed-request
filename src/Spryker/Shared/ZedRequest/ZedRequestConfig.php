@@ -11,4 +11,14 @@ use Spryker\Shared\Kernel\AbstractSharedConfig;
 
 class ZedRequestConfig extends AbstractSharedConfig
 {
+    /**
+     * Specification:
+     * - Returns true when base64 encoding is enabled for gateway request and response body.
+     *
+     * @api
+     */
+    public function isBase64TransferEncodingEnabled(): bool
+    {
+        return $this->get(ZedRequestConstants::TRANSFER_BASE64_ENCODING_ENABLED, false);
+    }
 }

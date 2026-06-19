@@ -30,7 +30,7 @@ class ZedRequestBusinessFactory extends AbstractBusinessFactory
 
     public function createZedRequestReader(): ZedRequestReaderInterface
     {
-        return new ZedRequestReader($this->getCurrentRequest());
+        return new ZedRequestReader($this->getCurrentRequest(), $this->getConfig());
     }
 
     public function getCurrentRequest(): Request
