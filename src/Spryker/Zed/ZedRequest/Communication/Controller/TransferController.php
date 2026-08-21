@@ -49,7 +49,6 @@ class TransferController extends AbstractController
         $request->attributes->set('action', $repeatData['action']);
 
         $reflectionProperty = new ReflectionProperty($request, 'pathInfo');
-        $reflectionProperty->setAccessible(true);
         $reflectionProperty->setValue($request, sprintf('/%s/%s/%s', $repeatData['module'], $repeatData['controller'], $repeatData['action']));
 
         $request->request->replace($repeatData);

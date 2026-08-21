@@ -118,7 +118,6 @@ class TransferServerTest extends Unit
     {
         $refObject = new ReflectionObject($transferServer);
         $refProperty = $refObject->getProperty('instance');
-        $refProperty->setAccessible(true);
         $refProperty->setValue(null);
     }
 }

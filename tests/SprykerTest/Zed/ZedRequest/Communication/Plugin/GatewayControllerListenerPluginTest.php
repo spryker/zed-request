@@ -59,7 +59,6 @@ class GatewayControllerListenerPluginTest extends Unit
     {
         $reflectionClass = new ReflectionClass(AbstractLocatorLocator::class);
         $reflectedProperty = $reflectionClass->getProperty('instance');
-        $reflectedProperty->setAccessible(true);
         $reflectedProperty->setValue(null);
     }
 
@@ -336,7 +335,6 @@ class GatewayControllerListenerPluginTest extends Unit
     {
         $refObject = new ReflectionObject($oldTransferServer);
         $refProperty = $refObject->getProperty('instance');
-        $refProperty->setAccessible(true);
         $refProperty->setValue(null);
     }
 
