@@ -3,14 +3,20 @@
 {% block toolbar %}
     {% set icon %}
         {{ include('@WebProfiler/Icon/http-client.svg') }}
-        <span class="sf-toolbar-value">Zed Requests {{ collector.logs|length }}</span>
+        <span class="sf-toolbar-value">{{ collector.logs|length }}</span>
     {% endset %}
 
     {% set text %}
         <div class="sf-toolbar-info-piece">
-            <b>Calls</b>
-            <span>{{ collector.logs|length }}</span>
+            <b>Zed Requests</b>
+            <span class="sf-toolbar-status">{{ collector.logs|length }}</span>
         </div>
+        {% for logData in collector.logs %}
+            <div class="sf-toolbar-info-piece">
+                <b>#{{ loop.index }}</b>
+                <span>{{ logData['destination']|split('/')|slice(-2)|join('/') }}</span>
+            </div>
+        {% endfor %}
     {% endset %}
 
     {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { link: profiler_url, name: 'zed_request'}) }}
@@ -30,37 +36,169 @@
 
 {% block panel %}
     <style>
-        table {
-            table-layout:fixed;
+        .zed-request-table {
+            table-layout: auto;
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
         }
-        td {
+        .zed-request-table .col-shrink {
+            white-space: nowrap;
+            width: 1%;
+        }
+        .zed-request-table .col-fill {
+            width: 99%;
+        }
+        .zed-request-table th {
+            background: #2e3d50;
+            color: #fff;
+            padding: 9px 10px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+        .zed-request-table td {
+            padding: 8px 10px;
+            vertical-align: top;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: transparent;
+        }
+        .zed-request-table tbody tr.zed-request-row-even td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .zed-request-table code {
+            background: #eef1f5;
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-size: 12px;
+            color: #3c4c60;
+        }
+
+        .zed-request-module {
+            display: inline-block;
+            padding: 2px 7px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+            background: #42a5f5;
+            color: #fff;
+        }
+
+        .zed-request-payload-row td {
+            padding-top: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .zed-request-payload-row.zed-request-row-even td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .zed-request-row-has-payload td {
+            border-bottom: none;
+        }
+        .zed-request-payload-cell {
+            padding: 6px 10px 10px 10px;
+        }
+        .zed-request-payload-content {
+            border-radius: 4px;
+            padding: 10px 14px;
+            margin-top: 4px;
             overflow-x: auto;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .zed-request-table details {
+            display: inline-block;
+            padding-top: 4px;
+            margin-right: 8px;
+        }
+        .zed-request-table details summary {
+            display: inline-block;
+            cursor: pointer;
+            font-size: 12px;
+            color: #ccc;
+            font-weight: 500;
+            padding: 3px 10px;
+            border-radius: 3px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+            user-select: none;
+            transition: background 0.12s, border-color 0.12s, color 0.12s;
+        }
+        .zed-request-table details summary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.35);
+            color: #fff;
+        }
+        .zed-request-table details[open] summary {
+            margin-bottom: 6px;
+            background: #2e3d50;
+            border-color: #2e3d50;
+            color: #fff;
+        }
+
+        .zed-request-empty {
+            padding: 40px 20px;
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+            border: 1px dashed #ddd;
+            border-radius: 6px;
         }
     </style>
 
     <h2>Zed Requests</h2>
-    <table>
-        <tr>
-            <th>Destination</th>
-            <th>Payload</th>
-            <th>Result</th>
-        </tr>
 
-        {% for logData in collector.logs %}
-            <tr>
-                <td>
-                    {{ logData['destination'] }}
-                    {% if logData['debug'] is defined and logData['debug']['X-Debug-Token-Link'] is defined and logData['debug']['X-Debug-Token'] is defined %}
-                        <pre><a href="{{ logData['debug']['X-Debug-Token-Link'] }}" target="_blank" rel="noopener">Profile {{ logData['debug']['X-Debug-Token'] }}</a></pre>
-                    {% endif %}
-                </td>
-                <td>
-                    <pre>{{ logData['payload'] }}</pre>
-                </td>
-                <td>
-                    <pre>{{ logData['result'] }}</pre>
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
+    {% if collector.logs is empty %}
+        <div class="zed-request-empty">
+            No Zed requests were captured for this request.
+        </div>
+    {% else %}
+        <table class="zed-request-table">
+            <thead>
+                <tr>
+                    <th class="col-shrink">#</th>
+                    <th class="col-shrink">Module</th>
+                    <th class="col-fill">Destination</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i, logData in collector.logs %}
+                    {% set path = logData['destination']|split('?')|first %}
+                    {% set segments = path|trim('/')|split('/') %}
+                    <tr class="{% if i is even %}zed-request-row-even{% endif %} zed-request-row-has-payload">
+                        <td class="col-shrink">{{ i + 1 }}</td>
+                        <td class="col-shrink">
+                            <span class="zed-request-module">{{ segments|length > 2 ? segments[segments|length - 3] : 'zed' }}</span>
+                        </td>
+                        <td>
+                            <code>{{ path }}</code>
+                            {% if logData['debug'] is defined and logData['debug']['X-Debug-Token-Link'] is defined and logData['debug']['X-Debug-Token'] is defined %}
+                                <a href="{{ logData['debug']['X-Debug-Token-Link'] }}" target="_blank" rel="noopener">Profile {{ logData['debug']['X-Debug-Token'] }}</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr class="zed-request-payload-row {% if i is even %}zed-request-row-even{% endif %}">
+                        <td colspan="3" class="zed-request-payload-cell">
+                            <details>
+                                <summary>Show payload</summary>
+                                <div class="zed-request-payload-content">
+                                    {{ profiler_dump(logData['payload'], maxDepth=2) }}
+                                </div>
+                            </details>
+                            <details>
+                                <summary>Show result</summary>
+                                <div class="zed-request-payload-content">
+                                    {{ profiler_dump(logData['result'], maxDepth=2) }}
+                                </div>
+                            </details>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
 {% endblock %}
