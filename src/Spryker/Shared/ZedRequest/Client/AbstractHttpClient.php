@@ -16,6 +16,7 @@ use InvalidArgumentException;
 use LogicException;
 use Psr\Http\Message\RequestInterface as MessageRequestInterface;
 use Psr\Http\Message\ResponseInterface as MessageResponseInterface;
+use Psr\Http\Message\UriInterface;
 use Spryker\Client\ZedRequest\Client\Request;
 use Spryker\Client\ZedRequest\Client\Response as SprykerResponse;
 use Spryker\Service\UtilNetwork\UtilNetworkServiceInterface;
@@ -115,10 +116,47 @@ abstract class AbstractHttpClient implements HttpClientInterface
     protected const ZED_API_SSL_ENABLED = 'ZED_API_SSL_ENABLED';
 
     /**
+     * @deprecated Use {@link \Spryker\Shared\ZedRequest\Client\AbstractHttpClient::ZED_REQUEST_ERROR_TEMPLATE}
+     * instead. This template labels the appended gateway response body as a stacktrace, which it never was,
+     * and it carries neither the response status code nor the request id needed to find the matching record
+     * in the gateway's own log.
+     *
      * @var string
      */
     protected const ZED_REQUEST_ERROR = 'Failed to complete request with server authority %s.
 Configured with %s %s:%s in %s. Error: Stacktrace:';
+
+    protected const string ZED_REQUEST_ERROR_TEMPLATE = 'Failed to complete request to the backend gateway.
+[target] %s %s
+[status] %s
+[requestId] %s - the backend gateway logs this same value in extra.request.requestId
+[configured] %s %s:%s in %s
+[gateway response body] %s';
+
+    protected const string RESPONSE_STATUS_MISSING = '<no response>';
+
+    protected const string RESPONSE_STATUS_PROXY_NOTE = ' (a proxy status, so the request most likely never reached the '
+        . 'gateway application and there will be no application log record for it)';
+
+    /**
+     * @var list<int>
+     */
+    protected const array RESPONSE_PROXY_STATUS_CODES = [502, 503, 504];
+
+    protected const string RESPONSE_MISSING_MESSAGE = '<no response received> - the request did not reach a gateway '
+        . 'that could answer it. Check DNS resolution, the target port and network reachability.';
+
+    protected const string RESPONSE_BODY_EMPTY_MESSAGE = '<empty, 0 bytes> - the gateway returned no body. This does '
+        . 'not mean the gateway logged nothing: search its log for the requestId above before concluding that. '
+        . 'Observed causes are a missing ZED_ERROR_PAGE file on that environment, which makes rendering the error '
+        . 'page fail after the exception has already been logged, and a PHP process that terminated before the '
+        . 'error handler ran.';
+
+    protected const int RESPONSE_BODY_MESSAGE_LIMIT = 2000;
+
+    protected const string HEADER_REQUEST_ID = 'X-Request-ID';
+
+    protected const string REQUEST_ID_MISSING = '<not set>';
 
     /**
      * @deprecated Will be removed with next major. Logging is done by Log bundle.
@@ -274,20 +312,11 @@ Configured with %s %s:%s in %s. Error: Stacktrace:';
         try {
             $response = $this->sendRequest($request, $requestTransfer, $requestOptions);
         } catch (GuzzleRequestException $e) {
-            $message = sprintf(
-                static::ZED_REQUEST_ERROR,
-                $request->getUri()->getScheme() . '://' . $request->getUri()->getAuthority(),
-                $this->setSslStatusMessage(),
-                $request->getUri()->getHost(),
-                $request->getUri()->getPort(),
-                $this->getConfigFilePathName(),
+            $requestException = new RequestException(
+                $this->buildRequestExceptionMessage($request, $e->getResponse()),
+                $e->getCode(),
+                $e,
             );
-            $response = $e->getResponse();
-            if ($response) {
-                $message .= PHP_EOL . PHP_EOL . $response->getBody();
-            }
-
-            $requestException = new RequestException($message, $e->getCode(), $e);
 
             $this->logException($requestException);
 
@@ -301,6 +330,114 @@ Configured with %s %s:%s in %s. Error: Stacktrace:';
     protected function logException(Throwable $throwable): void
     {
         ErrorLogger::getInstance()->log($throwable);
+    }
+
+    /**
+     * This message is the only artifact that reaches a support engineer through a copy-pasted log record,
+     * so it carries what is needed to continue the investigation on the gateway side: the exact target and
+     * status, the request id that correlates this record with the gateway's own log, and an honest
+     * description of the gateway response body rather than a hardcoded "Stacktrace:" label.
+     *
+     * @param \Psr\Http\Message\RequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface|null $response
+     *
+     * @return string
+     */
+    protected function buildRequestExceptionMessage(
+        MessageRequestInterface $request,
+        ?MessageResponseInterface $response
+    ): string {
+        $uri = $request->getUri();
+
+        return sprintf(
+            static::ZED_REQUEST_ERROR_TEMPLATE,
+            $request->getMethod(),
+            (string)$uri,
+            $this->describeResponseStatus($response),
+            $this->findRequestId($request),
+            $this->setSslStatusMessage(),
+            $uri->getHost(),
+            $this->getRequestPort($uri),
+            $this->getConfigFilePathName(),
+            $this->describeResponseBody($response),
+        );
+    }
+
+    protected function describeResponseStatus(?MessageResponseInterface $response): string
+    {
+        if ($response === null) {
+            return static::RESPONSE_STATUS_MISSING;
+        }
+
+        $statusCode = $response->getStatusCode();
+        $status = trim(sprintf('%d %s', $statusCode, $response->getReasonPhrase()));
+
+        if (in_array($statusCode, static::RESPONSE_PROXY_STATUS_CODES, true)) {
+            $status .= static::RESPONSE_STATUS_PROXY_NOTE;
+        }
+
+        return $status;
+    }
+
+    /**
+     * An empty body is a diagnosis, not a blank: the gateway never rendered its error page. Saying so
+     * explicitly is the difference between an actionable record and one that gets escalated as "no error".
+     *
+     * @param \Psr\Http\Message\ResponseInterface|null $response
+     *
+     * @return string
+     */
+    protected function describeResponseBody(?MessageResponseInterface $response): string
+    {
+        if ($response === null) {
+            return static::RESPONSE_MISSING_MESSAGE;
+        }
+
+        $body = $response->getBody();
+        if ($body->isSeekable()) {
+            $body->rewind();
+        }
+
+        $content = (string)$body;
+        $size = strlen($content);
+
+        if ($size === 0) {
+            return static::RESPONSE_BODY_EMPTY_MESSAGE;
+        }
+
+        if ($size <= static::RESPONSE_BODY_MESSAGE_LIMIT) {
+            return PHP_EOL . $content;
+        }
+
+        return sprintf(
+            '%s%s (truncated, %d bytes total)',
+            PHP_EOL,
+            substr($content, 0, static::RESPONSE_BODY_MESSAGE_LIMIT),
+            $size,
+        );
+    }
+
+    protected function findRequestId(MessageRequestInterface $request): string
+    {
+        return $request->getHeaderLine(static::HEADER_REQUEST_ID) ?: static::REQUEST_ID_MISSING;
+    }
+
+    /**
+     * A URI omits the port when it is the default one for the scheme, which previously rendered as
+     * "host:" with nothing after the colon.
+     *
+     * @param \Psr\Http\Message\UriInterface $uri
+     *
+     * @return int
+     */
+    protected function getRequestPort(UriInterface $uri): int
+    {
+        $port = $uri->getPort();
+        if ($port !== null) {
+            return $port;
+        }
+
+        return $uri->getScheme() === 'https' ? static::DEFAULT_SSL_PORT : static::DEFAULT_PORT;
     }
 
     /**
@@ -372,7 +509,12 @@ Configured with %s %s:%s in %s. Error: Stacktrace:';
         $response = $client->send($request, $this->buildRequestOptions($requestTransfer, $requestOptions));
 
         if ($response->getStatusCode() !== 200 || !$response->getBody()->getSize()) {
-            throw new InvalidZedResponseException('Invalid or empty response', $response, $request->getUri());
+            throw new InvalidZedResponseException(
+                $response->getBody()->getSize() ? 'Unexpected status code' : 'Empty response body',
+                $response,
+                (string)$request->getUri(),
+                $this->findRequestId($request),
+            );
         }
 
         return $response;
