@@ -55,7 +55,7 @@ class ZedRequestCommunicationTester extends Actor
             $this->getHttpKernelMock(),
             $controller,
             Request::createFromGlobals(),
-            HttpKernelInterface::MASTER_REQUEST,
+            $this->getMainRequestType(),
         );
 
         return $controllerEvent;
@@ -67,5 +67,10 @@ class ZedRequestCommunicationTester extends Actor
         $httpKernelMock = Stub::makeEmpty(HttpKernelInterface::class);
 
         return $httpKernelMock;
+    }
+
+    protected function getMainRequestType(): int
+    {
+        return HttpKernelInterface::MAIN_REQUEST;
     }
 }
