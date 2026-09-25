@@ -25,6 +25,7 @@
     "require-dev": {
         "spryker/application": "^3.2.0",
         "spryker/code-sniffer": "*",
+        "spryker/configuration": "*",
         "spryker/container": "*",
         "spryker/currency": "*",
         "spryker/event-dispatcher": "*",
@@ -43,6 +44,7 @@
     "autoload": {
         "psr-4": {
             "Spryker\\": "src/Spryker/",
+            "SprykerTest\\Client\\ZedRequest\\Helper\\": "tests/SprykerTest/Client/ZedRequest/_support/Helper/",
             "SprykerTest\\Zed\\ZedRequest\\Helper\\": "tests/SprykerTest/Zed/ZedRequest/_support/Helper/"
         }
     },
