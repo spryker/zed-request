@@ -22,7 +22,8 @@ use Spryker\Shared\ZedRequest\Client\ResponseInterface;
 use Spryker\Zed\Kernel\ClassResolver\Controller\ControllerResolver;
 use Spryker\Zed\Kernel\Communication\BundleControllerAction;
 use Spryker\Zed\Kernel\Communication\Controller\AbstractGatewayController;
-use Spryker\Zed\Kernel\Locator;
+use Spryker\Zed\Messenger\Business\MessengerFacade;
+use Spryker\Zed\Messenger\Business\Model\InMemoryMessageTray;
 use Spryker\Zed\Messenger\MessengerConfig;
 use Spryker\Zed\ZedRequest\Business\Client\Request as ZedRequest;
 use Spryker\Zed\ZedRequest\Business\Client\Response as ZedResponse;
@@ -55,8 +56,8 @@ class InProcessZedHttpClient implements HttpClientInterface
 
     /**
      * @param string $pathInfo
-     * @param array<string, \Spryker\Shared\Kernel\Transfer\TransferInterface> $metaTransfers
-     * @param array|int|null $requestOptions Ignored — there is no HTTP request to configure.
+     * @param array<mixed> $metaTransfers
+     * @param array<string, mixed>|int|null $requestOptions Ignored — there is no HTTP request to configure.
      */
     public function request( // phpcs:ignore SprykerStrict.TypeHints.ParameterTypeHint.MissingNativeTypeHint
         $pathInfo,
@@ -70,6 +71,7 @@ class InProcessZedHttpClient implements HttpClientInterface
         [$controller, $action] = $this->resolveGatewayControllerAction($pathInfo);
 
         MessengerConfig::setMessageTray(MessengerConstants::IN_MEMORY_TRAY);
+        $this->resetMessageTray();
 
         $this->resetConfigurationValueCache();
 
@@ -83,7 +85,7 @@ class InProcessZedHttpClient implements HttpClientInterface
     }
 
     /**
-     * @param array<string, \Spryker\Shared\Kernel\Transfer\TransferInterface> $metaTransfers
+     * @param array<mixed> $metaTransfers
      *
      * @throws \LogicException
      */
@@ -132,6 +134,16 @@ class InProcessZedHttpClient implements HttpClientInterface
     }
 
     /**
+     * A real Zed request is a process of its own and starts with an empty message tray. In process
+     * the in-memory tray is static, so without the reset every request would answer the messages of
+     * every earlier one as well.
+     */
+    protected function resetMessageTray(): void
+    {
+        (new ReflectionProperty(InMemoryMessageTray::class, 'messages'))->setValue(null, null);
+    }
+
+    /**
      * The Configuration module's static value cache is shared by the Client and the Zed reader,
      * which read different stores — so in one process the first leg's answer would be served to the
      * second. Clearing it on both sides of the hop restores the per-process resolution.
@@ -168,11 +180,7 @@ class InProcessZedHttpClient implements HttpClientInterface
 
     protected function addStoredMessengerMessages(ZedResponse $zedResponse): void
     {
-        $messagesTransfer = Locator::getInstance()->messenger()->facade()->getStoredMessages();
-
-        if ($messagesTransfer === null) {
-            return;
-        }
+        $messagesTransfer = (new MessengerFacade())->getStoredMessages();
 
         $zedResponse->addErrorMessages($this->toMessageTransfers($messagesTransfer->getErrorMessages()));
         $zedResponse->addInfoMessages($this->toMessageTransfers($messagesTransfer->getInfoMessages()));
