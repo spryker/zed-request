@@ -79,7 +79,7 @@ class AbstractHttpClientTest extends Unit
     }
 
     /**
-     * TE-8584: the template hardcoded the label "Stacktrace:" and appended the gateway response body after it.
+     * the template hardcoded the label "Stacktrace:" and appended the gateway response body after it.
      * The body is never a stacktrace, and every reader of a pasted record looked for one that was not there.
      *
      * @return void
